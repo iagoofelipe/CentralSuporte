@@ -1,0 +1,1 @@
+diretorio = __file__.replace(f'{__name__}.py', '')
