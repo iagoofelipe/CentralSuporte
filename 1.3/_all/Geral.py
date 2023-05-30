@@ -2,7 +2,7 @@ from os.path import exists
 import subprocess
 import json
 
-from diretorio import diretorio
+from _all.diretorio import diretorio
 
 def encode(name, upper=True) -> str:
         from unicodedata import normalize
@@ -141,21 +141,6 @@ def getDadosBase() -> dict:
             dados_base[cpf] = [_nome, email]
 
     return dados_base
-
-
-def toObject(dicionario):
-    """ conversão de dict para object """
-    class __ToOBject:
-        def __init__(self) -> None:
-            pass
-
-        def adicionar(self, key, value):
-            self.key = value
-
-        
-
-    for i in dicionario:
-        pass        
 
 
 class Registros:

@@ -5,8 +5,9 @@ class GUI:
         # elementos de root
         self.master = master
         self.root = master.root
+
         
-        # elementos de botões
+        # elementos de botõesaa
         self.button_color = self.master.button_color
         self.button_clicked_color = self.master.button_clicked_color
 

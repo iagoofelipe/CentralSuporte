@@ -1,40 +1,46 @@
+# módulos Python
 from tkinter import *
 from tkinter import font
+
+# subprocessos
 from GUI.login import Login
 from GUI.Menu import Menu
 
 from saf.GUI import GUI as gui_saf
 from wpp.GUI import GUI as gui_wpp
+from atendimentos.GUI import GUI as gui_atendimentos
 
 class Application:
 
-    def __init__(self, diretorio):
-        # configurações de root
+    def __init__(self, obj):
+        # configurações de root e janelas
         self.root = Tk()
-        self.bg_color = 'lightgray'
-        self.width_height = (700, 600)
-        self.root.iconbitmap(diretorio + '/images/icon.ico') # icone da janela
+        self.__geometry(700, 600)
+        self.root.iconbitmap(obj.diretorio + '/images/icon.ico') # icone da janela
         self.root.resizable(False, False) # responsividade
         self.root.title('Central Suporte')
+        self.bg_color = 'lightgray'
         self.root.config(background=self.bg_color)
         
-        # variáveis de fluxo - utilizadas em outras funções e métodos
+        # elementos gerais
         self.users = ['HEVERTON', 'IAGO', '']
         self.button_color = '#bcbcbc'
         self.button_clicked_color = '#999999'
+        self.font_name = None
 
         # métodos da classe
-        self.__centralize()
         self.__font()
+        self.login() # primeiro layout a ser carregado
 
-        # instâncias e outras guias
-        self.login()
+        # subprocessos e outras guias/layouts
         self.menu = Menu
         self.saf = gui_saf
         self.wpp = gui_wpp
+        self.atendimentos = gui_atendimentos
 
-    def __centralize(self):
-        width, height = self.width_height
+
+    def __geometry(self, width, height):
+        """ configurando tamanho e centralização da janela """
 
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
@@ -46,14 +52,20 @@ class Application:
 
 
     def __font(self):
+        """ configurando elementos de fonte """
+
         self.defaultFont = font.nametofont("TkDefaultFont") 
         self.defaultFont.configure(family="Bahnschrift SemiBold Condensed", size=15, weight=font.BOLD) 
+        self.font_name = self.defaultFont.actual()['family']
 
 
-    def _container_center(self): # utilizado para as subfunções (saf, bioac...)
+    def _container_center(self):
+        """ widget para subprocessos (saf, bioac...) """
+
         self.container_center = Frame(self.root)
         self.container_center.place(relx=0.15, rely=0, relheight=1, relwidth=0.85)
     
+
     def login(self):
         try:
             self.container_center.destroy() # caso já tenha sido executado, irá encerrar a janela para um novo login ao clicar em Sair

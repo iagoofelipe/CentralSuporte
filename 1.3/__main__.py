@@ -1,5 +1,4 @@
-from diretorio import diretorio
-from _main.verificacao_inicial import verificacao_inicial
+from _all.diretorio import diretorio
 from GUI.GUI import Application
 
 class CentralSuporte:
@@ -11,11 +10,8 @@ class CentralSuporte:
         self.arquivos_necessarios = ['base_gestao.csv','credentials.json','nomes.csv.gz']
         self.diretorio_padrao = '/_all/_files'
 
-        self.result_verification = verificacao_inicial(self)
-
-
 if __name__ == "__main__":
     obj = CentralSuporte()
-    app = Application(obj.diretorio)
-
+    app = Application(obj)
+    
     app.root.mainloop()
