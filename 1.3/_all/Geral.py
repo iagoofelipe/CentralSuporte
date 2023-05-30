@@ -1,6 +1,7 @@
 from os.path import exists
 import subprocess
 import json
+import pyautogui as ag
 
 from _all.diretorio import diretorio
 
@@ -182,3 +183,15 @@ class Json:
     def setJson(dados: dict, fileName):
         with open(fileName, 'w', encoding='utf8') as f:
             json.dump(dados, f, ensure_ascii=False, sort_keys=True, indent=4, separators=(',', ':'))
+
+
+def arquivos_necessarios(arquivos: list, caminho: str):
+    """ Gera alerta e FileNotFoundError caso faltem arquivos """
+    for f in arquivos:
+        fileName = caminho + '\\' + f
+        if not isFile(fileName, False):
+            ag.alert(f'Arquivo "{f}" necessário não encontrado!\n\nLocal do arquivo:\n{caminho}')
+            return True
+        
+    return False
+    

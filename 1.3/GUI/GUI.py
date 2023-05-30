@@ -28,6 +28,7 @@ class Application:
         self.button_clicked_color = '#999999'
         self.font_name = None
         self.obj = obj
+        self.diretorio = obj.diretorio
 
         # métodos da classe
         self.__font()

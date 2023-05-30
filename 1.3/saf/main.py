@@ -1,6 +1,6 @@
-from _all.Geral import getFile, toFile, parameters
-from saf.old.interface import newDados
-from bitrix.main import Bitrix
+from _all.Geral import getFile, toFile, parameters, arquivos_necessarios
+# from saf.old.interface import newDados
+# from bitrix.main import Bitrix
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -14,17 +14,19 @@ import os, datetime as dt
 import pyautogui as ag
 
 class Main:
-    def __init__(self, obj):
-        self.diretorio = obj.diretorio
+    def __init__(self, sub_master):
+        self.diretorio = sub_master.master.diretorio
         self.arquivos_necessarios = ['nomes.csv.gz', 'base_gestao.csv']
-        
-        servico = Service(ChromeDriverManager().install())
-        self.__driver = webdriver.Chrome(service=servico)
+        self.dir_arq_necessarios = self.diretorio + '_all\_files'
 
-
+        self.error = arquivos_necessarios(self.arquivos_necessarios, self.dir_arq_necessarios)
 
     def webOpen(self) -> None:
         """ Acessando a página SAF """
+        
+        servico = Service(ChromeDriverManager().install())
+        self.__driver = webdriver.Chrome(service=servico)
+        
         self.__driver.get('https://saf.serpro.gov.br:8443/iti/inicio.jsf')
 
         try:
@@ -46,28 +48,32 @@ class Main:
     def webClose(self) -> None:
         self.__driver.close()
     
+    def getDados(self, opcao):
+        """ pegando dados que serão utilizados, opcao 1 para dados de verificação e 2 para dados de cadastramento """
 
-    def getDados(self, parametro):
-        nome_arquivo = arquivos_de_parametros[parametro]
-        dados = getFile(nome_arquivo)
-        se_dados_manualmente = True
+        if opcao == 1:
+            pass
+    # def getDados(self, parametro):
+    #     nome_arquivo = arquivos_de_parametros[parametro]
+    #     dados = getFile(nome_arquivo)
+    #     se_dados_manualmente = True
 
-        if dados != None: # caso o arquivo exista
-            file_time = dt.datetime.fromtimestamp(os.path.getmtime(self.diretorio + nome_arquivo)).strftime("%d/%m/%Y, %H:%M")
+    #     if dados != None: # caso o arquivo exista
+    #         file_time = dt.datetime.fromtimestamp(os.path.getmtime(self.diretorio + nome_arquivo)).strftime("%d/%m/%Y, %H:%M")
     
-            resposta = ag.confirm(
-                f'''Arquivo com cpfs localizado!\n\nÚltima atualização do arquivo: {file_time}\nPosição de arquivo: {nome_arquivo}\n\nDeseja realizar uma nova consulta?''',
-                buttons=['Sim', 'Não']
-                )
+    #         resposta = ag.confirm(
+    #             f'''Arquivo com cpfs localizado!\n\nÚltima atualização do arquivo: {file_time}\nPosição de arquivo: {nome_arquivo}\n\nDeseja realizar uma nova consulta?''',
+    #             buttons=['Sim', 'Não']
+    #             )
         
-            se_dados_manualmente = True if resposta == 'Sim' else False
+    #         se_dados_manualmente = True if resposta == 'Sim' else False
 
-        if se_dados_manualmente: # em caso de falha na extração de dados ou digitar manualmente os cpfs
-            dados = newDados()
-            toFile(nome_arquivo, dados)
+    #     if se_dados_manualmente: # em caso de falha na extração de dados ou digitar manualmente os cpfs
+    #         dados = newDados()
+    #         toFile(nome_arquivo, dados)
 
-        self.dados = dados
-        return dados
+    #     self.dados = dados
+    #     return dados
 
     
     def verificar(self) -> dict:

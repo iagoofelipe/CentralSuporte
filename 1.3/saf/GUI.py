@@ -1,5 +1,5 @@
 from tkinter import *
-# from saf.main import Main
+from saf.main import Main
 
 class GUI:
 
@@ -12,11 +12,15 @@ class GUI:
         self.button_color = master.button_color
         self.button_clicked_color = master.button_clicked_color
 
-        self.master._container_center() # utilizado para criar um novo Frame para widgets do SAF
-        self.container_center = self.master.container_center
-        self.container()
+        self.main_saf = Main(self)
 
-        # self.main_saf = Main(master.obj)
+        if self.main_saf.error:
+            pass
+        else:
+            self.master._container_center() # utilizado para criar um novo Frame para widgets do SAF
+            self.container_center = self.master.container_center
+            self.container()
+
 
     def container(self):
         # widgets principais
@@ -78,4 +82,6 @@ class GUI:
             'manualmente': self.from_manualmente.get()
             }
         
-        print(self._from)
+        for key, item in self._from.items():
+            if item:
+                self._from = key
