@@ -1,16 +1,13 @@
 import tkinter as tk
 
-def abrir_janela():
-	janela2 = tk.Toplevel()
-	janela2.title('janela nova')
-	label_nome = tk.Label(janela2, text = "Nome")
-	label_nome.grid(row = 0, column = 0 )
-	botao_voltar = tk.Button(janela2, text = 'Fechar a janela2', command = janela2.destroy)
-	botao_voltar.grid(row = 10, column = 0)
+window = tk.Tk()
+window.columnconfigure(2, minsize=100)
+window.rowconfigure([0, 2], minsize=100)
 
-janela = tk.Tk()
+label1 = tk.Label(text="A")
+label1.grid(row=1, column=1)
 
-botao = tk.Button(janela, text = 'Ir para nova janela', command = abrir_janela)
-botao.grid(row = 0, column = 0)
+label2 = tk.Label(text="B")
+label2.grid(row=1, column=0)
 
-janela.mainloop()
+window.mainloop()

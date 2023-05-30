@@ -4,6 +4,7 @@ from GUI.login import Login
 from GUI.Menu import Menu
 
 from saf.GUI import GUI as gui_saf
+from wpp.GUI import GUI as gui_wpp
 
 class Application:
 
@@ -18,16 +19,19 @@ class Application:
         self.root.config(background=self.bg_color)
         
         # variáveis de fluxo - utilizadas em outras funções e métodos
-        self.users = ['HEVERTON', 'IAGO']
+        self.users = ['HEVERTON', 'IAGO', '']
+        self.button_color = '#bcbcbc'
+        self.button_clicked_color = '#999999'
 
         # métodos da classe
         self.__centralize()
         self.__font()
 
         # instâncias e outras guias
-        Login(self)
+        self.login()
         self.menu = Menu
         self.saf = gui_saf
+        self.wpp = gui_wpp
 
     def __centralize(self):
         width, height = self.width_height
@@ -49,3 +53,11 @@ class Application:
     def _container_center(self): # utilizado para as subfunções (saf, bioac...)
         self.container_center = Frame(self.root)
         self.container_center.place(relx=0.15, rely=0, relheight=1, relwidth=0.85)
+    
+    def login(self):
+        try:
+            self.container_center.destroy() # caso já tenha sido executado, irá encerrar a janela para um novo login ao clicar em Sair
+        except AttributeError:
+            pass
+
+        Login(self)

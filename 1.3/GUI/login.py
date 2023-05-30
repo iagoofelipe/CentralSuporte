@@ -20,8 +20,9 @@ class Login:
         self.container.place(relheight=1, relwidth=1)
         background = 'lightgray'
 
-        container_login = Frame(self.container, background=background)
-        container_login.place(relx=1/4, rely=0.15, relheight=0.6, relwidth=1/2)
+        container_login = Frame(self.container, background=background, height=300, width=300)
+        # container_login.place(relx=1/4, rely=0.15, relheight=0.6, relwidth=1/2)
+        container_login.pack(pady=100)
 
         Label(container_login, text='LOGIN', background=background, font=(self.font_name, 20)).place(relx=0.3, rely=0.3)
         Label(container_login, text='Usuário', background=background, font=(self.font_name, 15)).place(relx=0.3, rely=0.45)
@@ -45,7 +46,3 @@ class Login:
             self.container.destroy()
             self.master.user = usuario
             self.master.menu(self.master)
-
-    
-
-# Tk().configure()

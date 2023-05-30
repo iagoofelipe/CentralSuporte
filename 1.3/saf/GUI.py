@@ -6,12 +6,13 @@ class GUI:
         self.master = master
         self.root = master.root
         
+        
         self.master._container_center()
+        self.container_center = self.master.container_center
         self.container()
 
 
     def container(self):
-        self.container_center = self.master.container_center
 
         button_color = '#bcbcbc'
         button_clicked_color = '#999999'
