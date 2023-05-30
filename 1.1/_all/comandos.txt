@@ -1,0 +1,5 @@
+reg add HKLM\SOFTWARE\CentralSuporte /v Data /t REG_SZ /d False /f
+    adicionando valor (nome: Data, tipo: REG_SZ, dados: False)
+
+reg query HKLM\SOFTWARE\CentralSuporte /v Data
+    lendo dados em chave Data
