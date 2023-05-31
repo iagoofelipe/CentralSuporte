@@ -62,13 +62,14 @@ class Application:
 
 
     def _container_center(self):
-        """ widget para subprocessos (saf, bioac...) """
+        """ widget para subprocessos (saf, bioac...), utilizado para iniciar subprocessos ou limpar fluxo de navegação """
 
         self.container_center = Frame(self.root)
         self.container_center.place(relx=0.15, rely=0, relheight=1, relwidth=0.85)
     
 
     def login(self):
+        """ interface de login, utilizado ao iniciar a classe e com fbutton_sair """
         try:
             self.container_center.destroy() # caso já tenha sido executado, irá encerrar a janela para um novo login ao clicar em Sair
         except AttributeError:

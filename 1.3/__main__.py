@@ -5,7 +5,6 @@ class CentralSuporte:
     """ objeto com verificações iniciais, processos e métodos necessários """
 
     def __init__(self):
-
         self.diretorio = diretorio
         self.arquivos_necessarios = ['base_gestao.csv','credentials.json','nomes.csv.gz']
         self.diretorio_padrao = '/_all/_files'
