@@ -27,7 +27,7 @@ def isFile(fileName, diretorio_padrao=True):
     return exists(fileName)
 
 
-def toFile(fileName: str, dados: list | dict):
+def toFile(fileName: str, dados: list | dict | tuple):
     """ 
     gera arquivo com dados informados, substitui o arquivo caso já exista.
 
@@ -53,7 +53,7 @@ def toFile(fileName: str, dados: list | dict):
 
                 arquivo.write('\n')
                     
-        elif type(dados) == list:
+        elif type(dados) in (list, tuple):
             
             for conteudo in dados:
                 arquivo.write(str(conteudo) + '\n')
@@ -62,7 +62,7 @@ def toFile(fileName: str, dados: list | dict):
             arquivo.write(str(dados) + '\n')
 
 
-def getFile(fileName, diretorio_padrao=True) -> list | None:
+def getFile(fileName : str, diretorio_padrao=True) -> list | None:
     """ lendo arquivos e retornando lista com dados """
 
     file_type = fileName.split('.')[-1]
