@@ -1,5 +1,10 @@
 from tkinter import *
-from saf.main import Main
+import pyautogui as ag
+
+from saf.main import Saf
+from bitrix.main import Bitrix
+
+from _all.Geral import toFile, getFile, isFile, format_cpf, validador_cpf
 
 class GUI:
 
@@ -8,11 +13,13 @@ class GUI:
         self.master = master
         self.root = master.root
         
-        # elementos de botões
+        # elementos de botões e outros
         self.button_color = master.button_color
         self.button_clicked_color = master.button_clicked_color
+        self.dados = None
 
-        self.main_saf = Main(self)
+        self.main_saf = Saf(self)
+        self.bitrix = Bitrix()
 
         if self.main_saf.error:
             pass
@@ -31,23 +38,42 @@ class GUI:
         btn_cadastrar['text'] = 'CADASTRAR'
         btn_cadastrar['background'] = self.button_color
         btn_cadastrar['activebackground'] = self.button_clicked_color
-        btn_cadastrar['command'] = self.cadastrar_saf
+        btn_cadastrar['command'] = self.fbutton_cadastrar_saf
         btn_cadastrar.place(relheight=0.1, relwidth=0.3, rely=0.384, relx=0.35)
 
         btn_verificar = Button(self.container_center, justify='center', bd=0)
         btn_verificar['text'] = 'VERIFICAR'
         btn_verificar['background'] = self.button_color
         btn_verificar['activebackground'] = self.button_clicked_color
-        btn_verificar['command'] = self.verificar_saf
+        btn_verificar['command'] = self.fbutton_verificar_saf
         btn_verificar.place(relheight=0.1, relwidth=0.3, rely=0.5, relx=0.35)
 
-    def verificar(self, event):
-        
+
+    def bind_verificar(self, event):
+        """ bind utilizada para marcar apenas um checkbox por vez """
+
         self.from_bitrix.set(False)
         self.from_local.set(False)
         self.from_manualmente.set(False)
 
-    def verificar_saf(self):
+        try:
+            self.button_adicionar.place_forget()
+            self.entry_manualmente.place_forget()
+        except AttributeError:
+            pass
+
+
+    def bind_manualmente(self, event):
+        self.entry_manualmente = Entry(self.container_center)
+        self.button_adicionar = Button(self.container_center, text='adicionar', font=('Calibri', 9, 'normal'), command=self.fbutton_adicionar)
+        
+        self.button_adicionar.place(relx=0.35, rely=0.49)
+        self.entry_manualmente.place(relx=0.1, rely=0.5, relwidth=0.2)
+        self.dados = []
+
+
+
+    def fbutton_verificar_saf(self):
         self.master._container_center() # limpando container
         self.container_center = self.master.container_center
 
@@ -62,26 +88,70 @@ class GUI:
         op3 = Checkbutton(self.container_center, text='Digitar manualmente', variable=self.from_manualmente, font=font)
         
         Label(self.container_center, text='Selecione a fonte de dados:').place(relx=0.05, rely=0.2)
+        self.error_label = Label(self.container_center, fg='red', font=(self.master.font_name, 11, 'normal'))
+        self.error_label.place(relx=0.1, rely=0.27)
+
         op1.place(relx=0.1, rely=0.3)
         op2.place(relx=0.1, rely=0.35)
         op3.place(relx=0.1, rely=0.4)
 
-        op1.bind('<Button-1>', self.verificar, add='+')
-        op2.bind('<Button-1>', self.verificar, add='+')
-        op3.bind('<Button-1>', self.verificar, add='+')
+        op1.bind('<Button-1>', self.bind_verificar, add='+')
+        op2.bind('<Button-1>', self.bind_verificar, add='+')
+        op3.bind('<Button-1>', self.bind_verificar, add='+')
+        op3.bind('<Button-1>', self.bind_manualmente, add='+')
 
-        Button(self.container_center, text='continuar', bd=0, fg='white', background='#444444', activebackground=self.button_clicked_color, activeforeground='white', command=self.__continuar).place(relx=0.8, rely=0.8)
+        Button(self.container_center, text='continuar', bd=0, fg='white', background='#444444', activebackground=self.button_clicked_color, activeforeground='white', command=self.fbutton_continuar).place(relx=0.8, rely=0.8)
 
-    def cadastrar_saf(self):
+
+    def fbutton_cadastrar_saf(self):
         print('cadastrar saf')
 
-    def __continuar(self):
-        self._from = {
-            'bitrix': self.from_bitrix.get(),
-            'local': self.from_local.get(),
-            'manualmente': self.from_manualmente.get()
-            }
+    def fbutton_adicionar(self):
+        """ utilizada em "Digitar manualmente" """
+        cpf_entry = format_cpf(self.entry_manualmente.get())
+        if not validador_cpf(cpf_entry):
+            ag.alert('CPF inválido!')
+
+        else:
+            self.dados.append(cpf_entry)
+            self.entry_manualmente.delete(0, END)
+
+
+    def fbutton_continuar(self):
+        def bitrix():
+            self.root.withdraw()
+            self.dados = self.bitrix.getValues(17)
+            toFile('saf/_files/cpfs_para_verificar_saf.csv', self.dados)
+            self.root.deiconify()
         
-        for key, item in self._from.items():
-            if item:
-                self._from = key
+        if self.from_bitrix.get():
+        #    bitrix()
+            self.dados = ['066.586.591-09']
+            print(self.dados)
+
+        elif self.from_local.get():
+            fileName = 'saf/_files/cpfs_para_verificar_saf.csv'
+
+            if isFile(fileName):
+                self.dados = getFile(fileName)
+            else:
+                bitrix()
+
+        elif self.from_manualmente.get():
+            if self.dados != []:
+                toFile('saf/_files/cpfs_para_verificar_saf.csv', self.dados)
+            
+        else:
+            self.error_label['text'] = 'selecione uma das opções'
+
+        if self.dados != None:
+            if self.dados == []:
+                ag.alert('Nenhum cpf adicionando!')
+                return
+            self.root.withdraw()
+            self.main_saf.verificar(self.dados) # realiza a verificação, adiciona o atributo resultado_verificacao para sua própria classe
+            toFile('saf/_files/resultado_verificacao.csv', self.main_saf.resultado_verificacao)
+            ag.alert('A verificação obteve êxito!')
+            self.master._container_center() # limpando container
+            self.container()
+            self.root.deiconify()

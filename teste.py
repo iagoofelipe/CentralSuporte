@@ -1,27 +1,67 @@
-from tkinter import *
-master = Tk()
+# from tkinter import *
 
-def var_states():
-   print("opcao1: %d, opcao2: %d" % (var1.get(), var2.get()))
+# def enter(event):
+#     print(var_entry.get())
+#     var_entry.delete(0, END)
 
-Label(master, text="Texto:").grid(row=0, sticky=W)
-var1 = BooleanVar()
-opcao1 = Checkbutton(master, text="opção 1", variable=var1)
-opcao1.grid(row=1, sticky=W)
+# root = Tk()
 
-var2 = BooleanVar()
-opcao2 = Checkbutton(master, text="opção 2", variable=var2)
-opcao2.grid(row=2, sticky=W)
+# var_entry = Entry(root)
+# var_entry.pack()
 
-Button(master, text='Quit', command=master.quit).grid(row=3, sticky=W, pady=4)
-Button(master, text='Show', command=var_states).grid(row=4, sticky=W, pady=4)
+# var_entry.bind('<Return>', enter)
+# root.mainloop()
 
 
-def verificar(event):
-    
-    var1.set(False)
-    var2.set(False)
+import re
+def validador_cpf(cpf: str) -> bool:
 
-opcao1.bind('<Button-1>',verificar, add='+')
-opcao2.bind('<Button-1>',verificar, add='+')
-mainloop()
+    """ Efetua a validação do CPF, tanto formatação quando dígito verificadores.
+
+    Parâmetros:
+        cpf (str): CPF a ser validado
+
+    Retorno:
+        bool:
+            - Falso, quando o CPF não possuir o formato 999.999.999-99;
+            - Falso, quando o CPF não possuir 11 caracteres numéricos;
+            - Falso, quando os dígitos verificadores forem inválidos;
+            - Verdadeiro, caso contrário.
+
+    Exemplos:
+
+    >>> validate('529.982.247-25')
+    True
+    >>> validate('52998224725')
+    False
+    >>> validate('111.111.111-11')
+    False
+    """
+    if cpf == None:
+        return False
+    # Verifica a formatação do CPF
+    if not re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
+        return False
+
+    # Obtém apenas os números do CPF, ignorando pontuações
+    numbers = [int(digit) for digit in cpf if digit.isdigit()]
+
+    # Verifica se o CPF possui 11 números ou se todos são iguais:
+    if len(numbers) != 11 or len(set(numbers)) == 1:
+        return False
+
+    # Validação do primeiro dígito verificador:
+    sum_of_products = sum(a*b for a, b in zip(numbers[0:9], range(10, 1, -1)))
+    expected_digit = (sum_of_products * 10 % 11) % 10
+    if numbers[9] != expected_digit:
+        return False
+
+    # Validação do segundo dígito verificador:
+    sum_of_products = sum(a*b for a, b in zip(numbers[0:10], range(11, 1, -1)))
+    expected_digit = (sum_of_products * 10 % 11) % 10
+    if numbers[10] != expected_digit:
+        return False
+
+    return True
+
+print(validador_cpf(None))
