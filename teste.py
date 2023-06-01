@@ -1,28 +1,23 @@
-# from tkinter import *
+import sys
 
-# def enter(event):
-#     print(var_entry.get())
-#     param = 0, END
-#     var_entry.delete(*param)
+__path__ = sys.path[0]
+# # print(__path__)
+# argv = sys.argv.copy()
+# argv.pop(0)
 
-# root = Tk()
+# print(sys.argv)
+# print(argv)
+# print(__path__)
 
-# var_entry = Entry(root)
-# var_entry.pack()
-# parame = {'background':"black", 'text': 'entrar', 'fg':'white'}
-# Button(root, parame).pack()
-
-# var_entry.bind('<Return>', enter)
-# root.mainloop()
-
-class Pai:
+class App:
     def __init__(self):
-        self.nome = 'Iago'
-        self.idade = '18'
-pai = Pai()
+        self.argv = sys.argv[1:]
+    
+    @staticmethod
+    def __path__():
+        return sys.path[0]
 
-class Filho(Pai):
-    def show(self):
-        print(self.idade)
+    def __repr__(self) -> str:
+        return 'teste'
 
-print(Filho().idade)
+print(App().argv)
