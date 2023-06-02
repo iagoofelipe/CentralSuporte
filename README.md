@@ -1,0 +1,1 @@
+armazenar atendimentos em pasta de usuário e subir no final do dia

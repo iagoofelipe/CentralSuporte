@@ -1,5 +1,10 @@
-from tkinter import *
+# módulos Python
+from oauth2client.service_account import ServiceAccountCredentials
 from tkinter.ttk import Combobox
+from tkinter import *
+import gspread
+
+# módulos locais
 from _all.File import Json
 
 class GUI:
@@ -7,8 +12,10 @@ class GUI:
         # configurações de root e janelas
         self.master = master
         self.root = master.root
+        self.__path__ = master.__path__
 
         # elementos de botões
+        self.font = ('Segoe UI', 10)
         self.button_color = self.master.button_color
         self.button_clicked_color = self.master.button_clicked_color
 
@@ -19,12 +26,21 @@ class GUI:
 
 
     def container(self):
-        Label(self.container_center, text='Contabilizando os atendimentos por tipo.').place(relx=0.05, rely=0.03)
-        Button(self.container_center, text='contabilizar', bd=0, fg='white', background='#444444', activebackground=self.button_clicked_color, activeforeground='white').place(relx=0.8, rely=0.8)
+        self.container_center.bind('<Return>', self.fbutton_contabilizar)
 
-        Combobox(self.container_center, values=self.__combobox_values()).place(relx=0.05, rely=0.15, relwidth=0.9)
-        Label(self.container_center, text='telefone:').place(relx=0.05, rely=0.25)
-        Entry(self.container_center).place(relx=0.2, rely=0.26)
+        Label(self.container_center, text='Contabilizando atendimentos.').place(relx=0.05, rely=0.03)
+        Button(self.container_center, text='contabilizar', bd=0, fg='white', background='#444444', activebackground=self.button_clicked_color, activeforeground='white', command=self.fbutton_contabilizar).place(relx=0.8, rely=0.8)
+
+        self.tipo_atendimento = Combobox(self.container_center, values=self.__combobox_values(), font=self.font)
+        self.tipo_atendimento.place(relx=0.05, rely=0.15, relwidth=0.9)
+        
+        Label(self.container_center, text='telefone:', font=self.font).place(relx=0.05, rely=0.26)
+        self.telefone = Entry(self.container_center)
+        self.telefone.place(relx=0.05, rely=0.3)
+
+        Label(self.container_center, text='descrição:', font=self.font).place(relx=0.05, rely=0.36)
+        self.descricao = Entry(self.container_center, font=self.font, justify='left')
+        self.descricao.place(relx=0.05, rely=0.4, relwidth=0.5)
 
 
     def __combobox_values(self) -> list:
@@ -42,4 +58,41 @@ class GUI:
                 num_item += 1
         
         return retorno
+    
+    def alert(self):
+        Label(self.container_center, text='Os campos "tipo de atendimento" e "telefone" são obrigatórios!', fg='red', font=('Segoe UI', 9, 'bold')).place(relx=0.05, rely=0.1)
 
+
+    def __setSheet(self):
+        scopes = [
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/drive'
+        ]
+
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(self.__path__ + "/wpp/files/credentials.json", scopes) #acessa o arquivo json com credenciais da planilha
+        file = gspread.authorize(credentials) # authenticate the JSON key with gspread
+
+        # planilha e guia
+        ss = file.open("CONTROLE DE CHAMADOS E ATENDIMENTOS") #open sheet
+        guiaCS = ss.get_worksheet_by_id(1396832583)
+
+        print(guiaCS.row_count)
+
+        # for i in range(len(self.users)):
+        #     """ seguindo a ordem principal, I H P S J L """
+        
+        #     valor = self.valores[i]
+        #     colum = i + 1
+        #     guiaCS.update_cell(1, colum, valor)
+
+
+    def fbutton_contabilizar(self, event=None):
+        tipo_atendimento = self.tipo_atendimento.get()
+        telefone = self.telefone.get()
+        descricao = self.descricao.get()
+
+        if tipo_atendimento == '' or telefone == '':
+            self.alert()
+        
+        else:
+            self.__setSheet()

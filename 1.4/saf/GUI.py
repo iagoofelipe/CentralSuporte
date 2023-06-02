@@ -27,7 +27,10 @@ class GUI:
 
         self.main_saf = Saf(self)
         self.bitrix = Bitrix()
+        self.__error()
 
+    def __error(self):
+        """ impedindo execução caso ocorra algum erro, como FileNotFoundError """
         if self.main_saf.error:
             pass
         else:
@@ -51,7 +54,7 @@ class GUI:
         btn_verificar['command'] = self.fbutton_verificar
         btn_verificar.place(relheight=0.1, relwidth=0.3, rely=0.5, relx=0.35)
 
-
+    # funções de botões
     def fbutton_verificar(self):
         verificar(self)
     
@@ -64,6 +67,7 @@ class GUI:
     def fbutton_continuar(self):
         continuar(self)
     
+    # binds
     def bind_manualmente(self, event):
         bind_manualmente(self, event)
 
