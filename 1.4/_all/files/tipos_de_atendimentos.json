@@ -1,0 +1,29 @@
+{
+    "BioAC":[
+        "solicitação de acesso",
+        "auxílio em coletas",
+        "outros"
+        ],
+
+    "certificado":[
+        "instalação",
+        "conversão para pfx",
+        "outros"
+        ],
+
+    "SAF":[
+        "cadastramento",
+        "outros"
+    ],
+
+    "O-VPN":[
+        "solicitação de acesso",
+        "outros"
+    ],
+
+    "SCDS":[
+        "preenchimento do formulário",
+        "auxílio primeira emissão",
+        "outros"
+    ]
+}
