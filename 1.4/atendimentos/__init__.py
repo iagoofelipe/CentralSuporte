@@ -3,6 +3,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from tkinter.ttk import Combobox
 from tkinter import *
 import gspread
+import os
 
 # módulos locais
 from _all.File import Json
@@ -50,7 +51,7 @@ class GUI:
 
     def __combobox_values(self) -> list:
         retorno, num_key = [], 0
-        combobox_values = Json.getJson(r'1.3\_all\_files\tipos_de_atendimentos.json')
+        combobox_values = Json.getJson(self.__path__ + r'\atendimentos\files\tipos_de_atendimentos.json')
 
         for key, items in combobox_values.items():
             num_key += 1
@@ -69,51 +70,76 @@ class GUI:
 
 
     def fbutton_sincronizar(self):
+        # nome_planilha = "CONTROLE DE CHAMADOS E ATENDIMENTOS"
+        # gid = 1396832583
+
+        if self.dados_atendimentos == None:
+            return
+
+        nome_planilha = "teste"
+        gid = 0
+
         scopes = [
-        'https://www.googleapis.com/auth/spreadsheets',
-        'https://www.googleapis.com/auth/drive'
+            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/drive'
         ]
 
-        credentials = ServiceAccountCredentials.from_json_keyfile_name(self.__path__ + "/wpp/files/credentials.json", scopes) #acessa o arquivo json com credenciais da planilha
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(self.__path__ + r"\atendimentos\files\credentials.json", scopes) #acessa o arquivo json com credenciais da planilha
         file = gspread.authorize(credentials) # authenticate the JSON key with gspread
 
         # planilha e guia
-        ss = file.open("CONTROLE DE CHAMADOS E ATENDIMENTOS") #open sheet
-        guiaCS = ss.get_worksheet_by_id(1396832583)
-
+        ss = file.open(nome_planilha) #open sheet
+        guiaCS = ss.get_worksheet_by_id(gid)
         row = guiaCS.row_count + 1
+
+        guiaCS.add_rows(len(self.dados_atendimentos))
         for i in self.dados_atendimentos:
+            
             dados = self.dados_atendimentos[i]
             
-            i = int(i)
-            row += i
-            colum = 1
-            guiaCS.add_rows(1)
-            
-            for dado in dados:
-                guiaCS.update_cell(row, colum, dado)
-                
-                colum += 1
+            i = int(i) + row
+            cell_list = guiaCS.range(i, 1, i, 4)
+            num = 0
 
+            for cell in cell_list:
+                cell.value = dados[num]
+                num += 1
 
+            guiaCS.update_cells(cell_list)
+        
+        f = {
+            'padrao' : self.__path__,
+            'temp' : r'\Temp',
+            'atend' : r'\atendimentos\files',
+            'f' : r'\atendimentos_local.json'
+        }
+
+        if not os.path.exists(f['padrao'] + f['temp']):
+            os.mkdir(f['padrao'] + f['temp'])
+
+        Json.setJson(Json.getJson(f['padrao'] + f['atend'] + f['f']), f['padrao'] + f['temp'] + f['f'])
+        os.remove(f['padrao'] + f['atend'] + f['f'])
 
 
     def fbutton_contabilizar(self, event=None):
         tipo_atendimento = self.tipo_atendimento.get()
         telefone = self.telefone.get()
         descricao = self.descricao.get()
-        
 
         if tipo_atendimento == '' or telefone == '':
             self.alert()
+            return
         
-        else:
-            self.dados_atendimentos = Json.getJson(self.fileName)
+        self.dados_atendimentos = Json.getJson(self.fileName)
 
-            if self.dados_atendimentos == None:
-                self.dados_atendimentos = {}
+        if self.dados_atendimentos == None:
+            self.dados_atendimentos = {}
 
-            key = str(len(self.dados_atendimentos))
-            self.dados_atendimentos[key] = [ self.user, tipo_atendimento, telefone, descricao]
+        key = str(len(self.dados_atendimentos))
+        self.dados_atendimentos[key] = [ self.user, tipo_atendimento, telefone, descricao]
 
-            Json.setJson(self.dados_atendimentos, self.fileName)
+        Json.setJson(self.dados_atendimentos, self.fileName)
+
+        self.tipo_atendimento.delete(0, END)
+        self.telefone.delete(0, END)
+        self.descricao.delete(0, END)
