@@ -23,6 +23,10 @@ class GUI:
         self.master._container_center()
         self.container_center = self.master.container_center
         self.container()
+        self.user = master.user
+
+        self.fileName = self.__path__ + '/atendimentos/files/atendimentos_local.json'
+        self.dados_atendimentos = Json.getJson(self.fileName)
 
 
     def container(self):
@@ -30,6 +34,7 @@ class GUI:
 
         Label(self.container_center, text='Contabilizando atendimentos.').place(relx=0.05, rely=0.03)
         Button(self.container_center, text='contabilizar', bd=0, fg='white', background='#444444', activebackground=self.button_clicked_color, activeforeground='white', command=self.fbutton_contabilizar).place(relx=0.8, rely=0.8)
+        Button(self.container_center, text='sincronizar', bd=0, fg='white', background='#444444', activebackground=self.button_clicked_color, activeforeground='white', command=self.fbutton_sincronizar).place(relx=0.05, rely=0.8)
 
         self.tipo_atendimento = Combobox(self.container_center, values=self.__combobox_values(), font=self.font)
         self.tipo_atendimento.place(relx=0.05, rely=0.15, relwidth=0.9)
@@ -63,7 +68,7 @@ class GUI:
         Label(self.container_center, text='Os campos "tipo de atendimento" e "telefone" são obrigatórios!', fg='red', font=('Segoe UI', 9, 'bold')).place(relx=0.05, rely=0.1)
 
 
-    def __setSheet(self):
+    def fbutton_sincronizar(self):
         scopes = [
         'https://www.googleapis.com/auth/spreadsheets',
         'https://www.googleapis.com/auth/drive'
@@ -76,23 +81,39 @@ class GUI:
         ss = file.open("CONTROLE DE CHAMADOS E ATENDIMENTOS") #open sheet
         guiaCS = ss.get_worksheet_by_id(1396832583)
 
-        print(guiaCS.row_count)
+        row = guiaCS.row_count + 1
+        for i in self.dados_atendimentos:
+            dados = self.dados_atendimentos[i]
+            
+            i = int(i)
+            row += i
+            colum = 1
+            guiaCS.add_rows(1)
+            
+            for dado in dados:
+                guiaCS.update_cell(row, colum, dado)
+                
+                colum += 1
 
-        # for i in range(len(self.users)):
-        #     """ seguindo a ordem principal, I H P S J L """
-        
-        #     valor = self.valores[i]
-        #     colum = i + 1
-        #     guiaCS.update_cell(1, colum, valor)
+
 
 
     def fbutton_contabilizar(self, event=None):
         tipo_atendimento = self.tipo_atendimento.get()
         telefone = self.telefone.get()
         descricao = self.descricao.get()
+        
 
         if tipo_atendimento == '' or telefone == '':
             self.alert()
         
         else:
-            self.__setSheet()
+            self.dados_atendimentos = Json.getJson(self.fileName)
+
+            if self.dados_atendimentos == None:
+                self.dados_atendimentos = {}
+
+            key = str(len(self.dados_atendimentos))
+            self.dados_atendimentos[key] = [ self.user, tipo_atendimento, telefone, descricao]
+
+            Json.setJson(self.dados_atendimentos, self.fileName)
