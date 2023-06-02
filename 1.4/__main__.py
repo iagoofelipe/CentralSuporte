@@ -1,4 +1,5 @@
 import sys, argv
+from GUI import Application
 
 __version__ = '1.0.4'
 
@@ -14,7 +15,9 @@ if __name__ == "__main__":
     obj = CentralSuporte()
 
     if obj.argv == []:
-        """ executado sem parâmetros, App """
+        app = Application(obj)
+
+        app.root.mainloop()
         pass
     
     else:

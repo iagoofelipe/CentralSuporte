@@ -128,8 +128,7 @@ class GUI:
             self.root.deiconify()
         
         if self.from_bitrix.get():
-            self.dados = ['066.586.591-09']
-            print(self.dados)
+            bitrix()
 
         elif self.from_local.get():
             fileName = 'saf/_files/cpfs_para_verificar_saf.csv'

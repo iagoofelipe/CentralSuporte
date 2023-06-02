@@ -10,6 +10,8 @@ Funções para manipulação de arquivos
         Json.getJson - mesmo que getFile
         Json.setJson - mesmo que toFile
 
+    # getDadosBase - extrai dados da base Gestão (base_gestao.csv)
+
 """
 
 import json
@@ -113,3 +115,43 @@ class Json:
     def setJson(dados: dict, fileName):
         with open(fileName, 'w', encoding='utf8') as f:
             json.dump(dados, f, ensure_ascii=False, sort_keys=True, indent=4, separators=(',', ':'))
+
+
+class GetDadosBase:
+    
+    def get(self) -> dict:
+        """ pegando informações necessárias (cpf, nome, email) da base """
+        dados_base = {}
+
+        with open(__path__ + '/_all/files/base_gestao.csv') as arquivo:
+            try:
+                linhas = arquivo.readlines()
+            except UnicodeDecodeError:
+                print('Converta o arquivo base para csv (separado por vírgulas)')
+                from sys import exit
+                exit('Saindo')
+
+            for linha in linhas:
+                linha = linha.strip('\n')
+
+                _, cpf, _nome, email, *_ = linha.split(';')
+                _nome, *_ = _nome.split('-')
+
+                _nome = self.nome(_nome)
+                email = self.encode(email, upper=False)
+
+                dados_base[cpf] = [_nome, email]
+
+        return dados_base
+    
+
+    def encode(self, name, upper=True) -> str:
+        from unicodedata import normalize
+
+        ascii_name = normalize("NFKD", name).encode("ascii", errors="ignore").decode("ascii")        
+        return ascii_name.upper() if upper else ascii_name
+
+
+    def nome(self, name) -> str:
+        """ Remove caractere inicial em branco, caso haja, e retorna decodicidado em upperCase """
+        return self.encode(name.strip())
