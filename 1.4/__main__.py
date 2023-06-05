@@ -9,7 +9,7 @@ class CentralSuporte:
     def __init__(self):
         self.__path__ = sys.path[0]
         self.argv = sys.argv[1:]
-        self.users = ['IAGO','HEVERTON', 'PEDRO', 'SAMUEL', 'JOAO', '']
+        self.users = ['IAGO','HEVERTON', 'PEDRO', 'SAMUEL', 'JOAO']
 
 if __name__ == "__main__":
     obj = CentralSuporte()

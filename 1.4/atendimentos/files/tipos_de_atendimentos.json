@@ -1,29 +1,29 @@
 {
     "BioAC":[
-        "solicitação de acesso",
-        "auxílio em coletas",
-        "outros"
+        "Solicitação de acesso",
+        "Auxílio em coletas",
+        "Outros"
         ],
 
-    "certificado":[
-        "instalação",
-        "conversão para pfx",
-        "outros"
+    "Certificado":[
+        "Instalação",
+        "Conversão para pfx",
+        "Outros"
         ],
 
     "SAF":[
-        "cadastramento",
-        "outros"
+        "Cadastramento",
+        "Outros"
     ],
 
     "O-VPN":[
-        "solicitação de acesso",
-        "outros"
+        "Solicitação de acesso",
+        "Outros"
     ],
 
     "SCDS":[
-        "preenchimento do formulário",
-        "auxílio primeira emissão",
-        "outros"
+        "Preenchimento do formulário",
+        "Auxílio primeira emissão",
+        "Outros"
     ]
 }

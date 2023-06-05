@@ -1,3 +1,14 @@
+""" 
+interface principal, conecta todas as demais interfaces
+
+required : .__main__
+requested : obj.__path__ <object>,
+            .GUI.login.Login <class>,
+            .GUI.Menu.Menu <class>,
+            .saf.GUI.GUI <class>
+
+"""
+
 # módulos Python
 from tkinter import *
 from tkinter import font

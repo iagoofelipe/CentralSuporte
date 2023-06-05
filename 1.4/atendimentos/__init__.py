@@ -1,12 +1,29 @@
+""" 
+required : .GUI (utilizado em .GUI.Menu)
+requested : master(
+                root, 
+                __path__, 
+                container_center, 
+                button_color, button_clicked_color, 
+                user
+                ) <object>,
+            
+            ._all.File(
+                Json <class>, 
+                isFile <function>
+                ) 
+"""
+
 # módulos Python
 from oauth2client.service_account import ServiceAccountCredentials
 from tkinter.ttk import Combobox
 from tkinter import *
+import pyautogui as ag
 import gspread
 import os
 
 # módulos locais
-from _all.File import Json
+from _all.File import Json, isFile
 
 class GUI:
     def __init__(self, master):
@@ -60,7 +77,7 @@ class GUI:
             retorno.append(f'{num_key} - {key}')
 
             for i in items:
-                retorno.append(f'    {num_key}.{num_item} - {i}')
+                retorno.append(f'--{num_key}.{num_item} {i}')
                 num_item += 1
         
         return retorno
@@ -70,20 +87,21 @@ class GUI:
 
 
     def fbutton_sincronizar(self):
-        # nome_planilha = "CONTROLE DE CHAMADOS E ATENDIMENTOS"
-        # gid = 1396832583
+        nome_planilha = "CONTROLE DE CHAMADOS E ATENDIMENTOS"
+        gid = 1396832583
 
-        if self.dados_atendimentos == None:
+        if not isFile(r'\atendimentos\files\tipos_de_atendimentos.json') or self.dados_atendimentos == None:
+            ag.alert('Nenhum dado a ser sincronizado!')
             return
-
-        nome_planilha = "teste"
-        gid = 0
+        # nome_planilha = "teste"
+        # gid = 0
 
         scopes = [
             'https://www.googleapis.com/auth/spreadsheets',
             'https://www.googleapis.com/auth/drive'
         ]
 
+        self.root.withdraw()
         credentials = ServiceAccountCredentials.from_json_keyfile_name(self.__path__ + r"\atendimentos\files\credentials.json", scopes) #acessa o arquivo json com credenciais da planilha
         file = gspread.authorize(credentials) # authenticate the JSON key with gspread
 
@@ -106,19 +124,18 @@ class GUI:
                 num += 1
 
             guiaCS.update_cells(cell_list)
-        
-        f = {
-            'padrao' : self.__path__,
-            'temp' : r'\Temp',
-            'atend' : r'\atendimentos\files',
-            'f' : r'\atendimentos_local.json'
-        }
 
-        if not os.path.exists(f['padrao'] + f['temp']):
-            os.mkdir(f['padrao'] + f['temp'])
+        temp_path = self.__path__ + r'\Temp'
+        temp_file = self.__path__ + r'\Temp\atendimentos_local.json'
+        atend_file = self.__path__ + r'\atendimentos\files\atendimentos_local.json'
 
-        Json.setJson(Json.getJson(f['padrao'] + f['atend'] + f['f']), f['padrao'] + f['temp'] + f['f'])
-        os.remove(f['padrao'] + f['atend'] + f['f'])
+        if not os.path.exists(temp_path):
+            os.mkdir(temp_path)
+
+        Json.setJson(Json.getJson(atend_file), temp_file)
+        os.remove(atend_file)
+        self.root.deiconify()
+        self.dados_atendimentos = None
 
 
     def fbutton_contabilizar(self, event=None):

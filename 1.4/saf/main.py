@@ -1,3 +1,11 @@
+""" 
+main principal SAF, realiza processos de verificação e cadastramento
+
+required : .GUI
+requested : sub_master(__path__) <object>
+
+"""
+
 # módulos Python
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service

@@ -1,3 +1,16 @@
+""" 
+interface de menu sidebar, possui botões para as principais funcionalidades
+
+required : .GUI
+requested : master(
+                root, 
+                user, button_color, button_clicked_color,
+                saf .saf.GUI, 
+                atendimentos .atendimentos
+                ) <object>
+
+"""
+
 from tkinter import *
 
 class Menu:

@@ -1,3 +1,11 @@
+""" 
+realiza a contagem e sincronização da planilha com novos números
+
+required : .__main__
+requested : obj(__path__, users) <object>
+
+"""
+
 # módulos Python
 import pyautogui as ag
 from time import sleep

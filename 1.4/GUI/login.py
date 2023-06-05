@@ -1,3 +1,11 @@
+""" 
+interface de login
+
+required : .GUI
+requested : master(root, users) <object>
+
+"""
+
 from tkinter import *
 
 class Login:
