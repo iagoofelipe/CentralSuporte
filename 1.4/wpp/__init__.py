@@ -87,3 +87,16 @@ class Wpp:
         
         self.__setSheet()
         webbrowser.open('https://docs.google.com/spreadsheets/d/1k5bo0Vv3GTWSaOS6rKoSX79s42BjQGx9hODg2fuIWuA/edit#gid=32507316')
+
+    
+def argv(path, argvs):
+    match argvs[0]:
+        case '--gid':
+            dados = Json.getJson(path + r'\wpp\files\sheet_info.json')
+
+            dados['gid'] = argvs[1]
+            Json.setJson(dados, path + r'\wpp\files\sheet_info.json')
+            print(f'gid updated to {argvs[1]}')
+
+        case _:
+            print('Nothing happened')
