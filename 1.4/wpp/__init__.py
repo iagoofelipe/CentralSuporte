@@ -13,6 +13,7 @@ from time import sleep
 from oauth2client.service_account import ServiceAccountCredentials
 import webbrowser
 import gspread
+from _all.File import Json
 
 class Wpp:
     def __init__(self, obj: object) -> None:
@@ -50,12 +51,16 @@ class Wpp:
         'https://www.googleapis.com/auth/drive'
         ]
 
+        json_file = Json.getJson(self.__path__ + "/wpp/files/sheet_info.json")
+        spreadsheet_name = json_file['spreadsheet_name']
+        gid = int(json_file['gid'])
+
         credentials = ServiceAccountCredentials.from_json_keyfile_name(self.__path__ + "/wpp/files/credentials.json", scopes) #acessa o arquivo json com credenciais da planilha
         file = gspread.authorize(credentials) # authenticate the JSON key with gspread
 
         # planilha e guia
-        ss = file.open("CONTROLE DE CHAMADOS E ATENDIMENTOS") #open sheet
-        guiaTemplates = ss.get_worksheet_by_id(852765518)
+        ss = file.open(spreadsheet_name) #open sheet
+        guiaTemplates = ss.get_worksheet_by_id(gid)
 
         for i in range(len(self.users)):
             """ seguindo a ordem principal, I H P S J L """
