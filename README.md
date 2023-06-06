@@ -1,1 +1,3 @@
-armazenar atendimentos em pasta de usuário e subir no final do dia
+módulos necessários
+
+pyautogui, oauth2client, gspread, selenium, webdriver_manager
