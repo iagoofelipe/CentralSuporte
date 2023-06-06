@@ -16,29 +16,6 @@ def formatar(cpf: str | int) -> str:
 
 
 def validar(cpf: str) -> bool:
-
-    """ Efetua a validação do CPF, tanto formatação quando dígito verificadores.
-
-    Parâmetros:
-        cpf (str): CPF a ser validado
-
-    Retorno:
-        bool:
-            - Falso, quando o CPF não possuir o formato 999.999.999-99;
-            - Falso, quando o CPF não possuir 11 caracteres numéricos;
-            - Falso, quando os dígitos verificadores forem inválidos;
-            - Verdadeiro, caso contrário.
-
-    Exemplos:
-
-    >>> validate('529.982.247-25')
-    True
-    >>> validate('52998224725')
-    False
-    >>> validate('111.111.111-11')
-    False
-    """
-
     # Verifica a formatação do CPF
     if not re.match(r'\d{3}\.\d{3}\.\d{3}-\d{2}', cpf):
         return False

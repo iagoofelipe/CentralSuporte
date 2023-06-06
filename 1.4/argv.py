@@ -24,6 +24,3 @@ class Agrv:
 
             case 'wpp':
                 wpp(self.__path__, self.argv[1:])
-
-            case 'teste':
-                print(self.__path__)
