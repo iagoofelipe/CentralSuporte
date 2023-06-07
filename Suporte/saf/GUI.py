@@ -11,6 +11,7 @@ requested :
 
 # módulos Python
 from tkinter import *
+import pyautogui as ag
 
 # subprocessos
 from .__main__ import Saf
@@ -70,7 +71,8 @@ class GUI:
         verificar(self)
     
     def fbutton_cadastrar(self):
-        cadastrar(self)
+        ag.alert('Em desenvolvimento :)')
+        # cadastrar(self)
 
     def fbutton_adicionar(self):
         adicionar(self)

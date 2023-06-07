@@ -1,8 +1,12 @@
-import sys
+import win32com.shell.shell as shell
+import os, subprocess, sys
+
 
 __path__ = sys.path[0] + '\Suporte' # para execução direta
+# __path__ = Reg().get('path') # após instalação
 __version__ = "1.0.5"
 users = ['IAGO','HEVERTON', 'PEDRO', 'SAMUEL', 'JOAO']
+
 
 """ 
 categorias:
@@ -10,6 +14,51 @@ categorias:
     FILE
     POSITIONAL ARGUMENTS
 """
+
+#---------------------------ADM------------------------------------
+def adm():
+    ASADMIN = 'asadmin'
+    
+    if sys.argv[-1] != ASADMIN:
+        script = os.path.abspath(sys.argv[0])
+        params = ' '.join([script] + sys.argv[1:] + [ASADMIN])
+        shell.ShellExecuteEx(lpVerb='runas', lpFile=sys.executable, lpParameters=params)
+#------------------------------------------------------------------
+
+
+#---------------------------REG------------------------------------
+
+class Registros:
+    """ Dados armazenados no Editor de Registro do Windows """
+
+    def __init__(self):
+        self.KEYNAME = r'HKEY_LOCAL_MACHINE\SOFTWARE\CentralSuporte'
+        self.registros = {}
+        self.__execADM = 0 # para que seja executado como administrador apenas uma vez
+
+    def get(self, nome='all') -> dict:
+        """ lendo dados de registro """
+        output = subprocess.check_output(rf'reg query {self.KEYNAME}').decode(errors='ignore').replace(f'\r\n{self.KEYNAME}\r\n    ', '').split('\r\n')
+
+        for linha in output:
+            linha = linha.strip().split('    REG_SZ    ') # removendo espaço no início e separando chave de dados
+            
+            if linha == ['']:
+                pass
+            else:
+                self.registros[linha[0]] = linha[1]
+        
+        return self.registros if nome == 'all' else self.registros[nome]
+
+    def set(self, nome, dados) -> None:
+        os.system(f'reg add {self.KEYNAME} /v {nome} /d "{dados}" /f')
+        
+
+        if self.__execADM == 0:
+            adm()
+            self.__execADM += 1
+#------------------------------------------------------------------
+
 
 #---------------------------CPF------------------------------------
 """ 

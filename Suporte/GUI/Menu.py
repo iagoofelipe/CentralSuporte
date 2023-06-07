@@ -12,6 +12,7 @@ requested : master(
 """
 
 from tkinter import *
+import pyautogui as ag
 
 class Menu:
     def __init__(self, master):
@@ -56,7 +57,7 @@ class Menu:
         self.master.saf(self.master)
 
     def bioac(self):
-        pass
+        ag.alert('Em desenvolvimento :)')
 
     def atendimentos(self):
         self.master.atendimentos(self.master)

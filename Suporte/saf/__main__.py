@@ -75,7 +75,24 @@ class Saf:
         # self._webClose()
     
     def cadastrar(self):
-        pass
+        servico = Service(ChromeDriverManager().install())
+        self.__driver = webdriver.Chrome(service=servico)
+        
+        self.__driver.get('https://saf.serpro.gov.br:8443/iti/inicio.jsf')
+
+        try:
+            self.__driver.find_element(By.ID, 'details-button').click()
+            self.__driver.find_element(By.ID, 'proceed-link').click()
+        except:
+            pass
+        self.__driver.find_element(By.CSS_SELECTOR, '#j_idt56\:j_idt58 > span').click() # login
+        self.__driver.find_element(By.ID, 'j_idt23:selecionaSistema_label').click() # caixa selecione
+        self.__driver.find_element(By.CSS_SELECTOR, '#j_idt36\:j_idt40 > ul > li > a').click() # usuário
+
+        # loop
+        
+
+        input('input')
 
 
 h = """ 
@@ -112,7 +129,8 @@ if __name__ == '__main__':
 
             case '--c':
                 saf = Saf()
-                input()
+                saf.cadastrar()
+                saf._webClose()
 
             case '-h_class':
                 print(h_class)
