@@ -1,12 +1,23 @@
+""" 
+interface principal, cria e conecta as demais estruturas de interface SAF
+
+required : ..GUI
+requested : 
+            master(
+            root, button_color, button_clicked_color
+            )
+
+"""
+
 # módulos Python
 from tkinter import *
 
 # subprocessos
-from saf.main import Saf
-from saf.fbutton import verificar, cadastrar, adicionar, continuar
-from saf.bind import bind_manualmente, bind_verificar
+from .__main__ import Saf
+from .fbutton import verificar, cadastrar, adicionar, continuar
+from .bind import bind_manualmente, bind_verificar
 
-from bitrix import Bitrix
+from ..bitrix import Bitrix
 
 class GUI:
     def __init__(self, master):
@@ -36,10 +47,10 @@ class GUI:
         else:
             self.master._container_center() # utilizado para criar um novo Frame para widgets do SAF
             self.container_center = self.master.container_center
-            self.__container()
+            self._container()
 
 
-    def __container(self):
+    def _container(self):
         # widgets principais
         self.frame_saf = Label(self.container_center, text='Clique na opção desejada:')
         self.frame_saf.place(relx=0.1, rely=0.05)

@@ -83,5 +83,5 @@ def continuar(self):
         toFile('saf/files/resultado_verificacao.csv', self.main_saf.resultado_verificacao)
         ag.alert('A verificação obteve êxito!')
         self.master._container_center() # limpando container
-        self.__container()
+        self._container()
         self.root.deiconify()

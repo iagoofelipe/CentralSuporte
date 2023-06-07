@@ -14,31 +14,32 @@ from tkinter import *
 from tkinter import font
 
 # subprocessos
-from GUI.login import Login
-from GUI.Menu import Menu
+from .login import Login
+from .Menu import Menu
+from ..__init import __path__, users
 
-from saf.GUI import GUI as gui_saf
-from atendimentos import GUI as gui_atendimentos
+from ..saf.GUI import GUI as gui_saf
+from ..atendimentos.__init import GUI as gui_atendimentos
 
 class Application:
 
-    def __init__(self, obj):
+    def __init__(self):
         # configurações de root e janelas
         self.root = Tk()
         self.__geometry(700, 600)
-        self.root.iconbitmap(obj.__path__ + '/_all/files/images/icon.ico') # icone da janela
+        self.root.iconbitmap(__path__ + '/files/images/icon.ico') # icone da janela
         self.root.resizable(False, False) # responsividade
         self.root.title('Central Suporte')
         self.bg_color = 'lightgray'
         self.root.config(background=self.bg_color)
         
         # elementos gerais
-        self.users = obj.users
+        self.users = users
         self.button_color = '#bcbcbc'
         self.button_clicked_color = '#999999'
         self.font_name = None
-        self.obj = obj
-        self.__path__ = obj.__path__
+        # self.obj = obj
+        self.__path__ = __path__
 
         # métodos da classe
         self.__font()
