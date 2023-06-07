@@ -2,8 +2,6 @@ import sys
 
 __path__ = sys.path[0] + '\Suportt' # para execução direta
 __version__ = "1.0.5"
-# __path__ = sys.path[5] + '\Suporte' # para execução com módulo
-
 users = ['IAGO','HEVERTON', 'PEDRO', 'SAMUEL', 'JOAO']
 
 """ 
@@ -181,7 +179,7 @@ class GetDadosBase:
         """ pegando informações necessárias (cpf, nome, email) da base """
         dados_base = {}
 
-        with open(__path__ + '/_all/files/base_gestao.csv') as arquivo:
+        with open(__path__ + '/files/base_gestao.csv') as arquivo:
             try:
                 linhas = arquivo.readlines()
             except UnicodeDecodeError:
