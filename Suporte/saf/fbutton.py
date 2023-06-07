@@ -79,7 +79,9 @@ def continuar(self):
             ag.alert('Nenhum cpf adicionando!')
             return
         self.root.withdraw()
+        self.main_saf._webOpen()
         self.main_saf.verificar(self.dados) # realiza a verificação, adiciona o atributo resultado_verificacao para sua própria classe
+        self.main_saf._webClose()
         toFile('saf/files/resultado_verificacao.csv', self.main_saf.resultado_verificacao)
         ag.alert('A verificação obteve êxito!')
         self.master._container_center() # limpando container

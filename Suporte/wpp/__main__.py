@@ -34,6 +34,8 @@ if __name__ == '__main__':
         '--show' : 0
         }
 
+    print(h) if argvs == [] else None
+
     for i in argvs:
         match i:
             case '--u':

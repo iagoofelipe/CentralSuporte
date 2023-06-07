@@ -1,6 +1,6 @@
 import sys
 
-__path__ = sys.path[0] + '\Suportt' # para execução direta
+__path__ = sys.path[0] + '\Suporte' # para execução direta
 __version__ = "1.0.5"
 users = ['IAGO','HEVERTON', 'PEDRO', 'SAMUEL', 'JOAO']
 

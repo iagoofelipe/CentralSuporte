@@ -14,7 +14,7 @@ from selenium.webdriver.common.by import By
 
 from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
-import sys
+import sys, os
 
 # módulos locais
 from ..__init import required, __path__, getFile, toFile
@@ -28,7 +28,7 @@ class Saf:
 
         self.error = required(self.arquivos_necessarios, self.dir_arq_necessarios)
 
-    def __webOpen(self) -> None:
+    def _webOpen(self) -> None:
         """ Acessando a página SAF """
         
         servico = Service(ChromeDriverManager().install())
@@ -52,12 +52,13 @@ class Saf:
         self.__driver.find_element(By.CSS_SELECTOR, '#j_idt36\:j_idt40 > ul > li > ul > li > a').click()
 
 
-    def __webClose(self) -> None:
+    def _webClose(self) -> None:
         self.__driver.close()
+        os.system('cls')
     
     def verificar(self, dados) -> dict:
         """ verificando cpf's cadastrados em SAF """
-        self.__webOpen()
+        # self._webOpen()
         resultado = {}
 
         for cpf in dados:
@@ -71,7 +72,10 @@ class Saf:
             self.__driver.find_element(By.CSS_SELECTOR,'#j_idt54\:j_idt103 > span').click(); sleep(1)
 
         self.resultado_verificacao = resultado
-        self.__webClose()
+        # self._webClose()
+    
+    def cadastrar(self):
+        pass
 
 
 h = """ 
@@ -92,7 +96,6 @@ Utilizado para argumentos posicionais.
 
 
 if __name__ == '__main__':
-    opcoes_json = ['gid_temp', 'gid_relatorio', 'url', 'ss_name']
     
     argvs = sys.argv[1:]
     print(h) if argvs == [] else None
@@ -101,13 +104,18 @@ if __name__ == '__main__':
         match i:
             case '--v':
                 saf = Saf()
+                saf._webOpen()
                 saf.verificar(getFile('saf/files/cpfs_para_verificar_saf.csv'))
+                saf._webClose()
                 toFile('saf/files/resultado_verificacao.csv', saf.resultado_verificacao)
                 print('A verificação obteve êxito!')
+
+            case '--c':
+                saf = Saf()
+                input()
 
             case '-h_class':
                 print(h_class)
 
             case '-h':
                 print(h)
-            
