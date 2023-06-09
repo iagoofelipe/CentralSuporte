@@ -5,6 +5,8 @@ utilizado após o registro do caminho
 from __init import Registros
 
 reg = Registros()
+reg.set('path', r'%AppData%\Central Suporte')
+
 dir_paths = reg.get()
 
 desktop = dir_paths['desktop_path']
