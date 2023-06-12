@@ -17,7 +17,7 @@ from time import sleep
 import sys, os
 
 # módulos locais
-from ..__init import required, __path__, getFile, toFile
+from ..__init import required, __path__, getFile, toFile, delFile, appendFile
 
 class Saf:
     def __init__(self):
@@ -60,6 +60,8 @@ class Saf:
         """ verificando cpf's cadastrados em SAF """
         # self._webOpen()
         resultado = {}
+        fileName = 'saf/files/resultado_verificacao.csv'
+        delFile(fileName)
 
         for cpf in dados:
             self.__driver.find_element(By.ID,'j_idt54:cpf').send_keys(Keys.HOME + cpf + Keys.RETURN) # teclado
@@ -68,6 +70,7 @@ class Saf:
             consulta = self.__driver.find_element(By.XPATH, '//*[@id="j_idt106:tabelaUsuarios_data"]/tr/td').get_attribute('outerHTML'); sleep(1)
 
             resultado[cpf] = False if consulta == '<td colspan="5">A pesquisa não obteve resultados</td>' else True
+            appendFile(fileName, f'{cpf};{resultado[cpf]}')
 
             self.__driver.find_element(By.CSS_SELECTOR,'#j_idt54\:j_idt103 > span').click(); sleep(1)
 

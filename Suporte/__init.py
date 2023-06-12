@@ -10,6 +10,8 @@ users = ['IAGO','HEVERTON', 'PEDRO', 'SAMUEL', 'JOAO']
 
 """ 
 categorias:
+    ADM
+    REG
     CPF
     FILE
     POSITIONAL ARGUMENTS
@@ -196,7 +198,7 @@ def getFile(fileName : str, diretorio_padrao=True) -> list | None:
     return None # em caso de exceção UnicodeDecodeError ou else
 
 
-def required(arquivos: list, caminho: str):
+def required(arquivos: list, caminho: str) -> bool:
     """ Gera alerta e retorna True caso faltem arquivos """
     for f in arquivos:
         fileName = caminho + '\\' + f
@@ -205,6 +207,32 @@ def required(arquivos: list, caminho: str):
             return True
         
     return False
+
+
+def delFile(fileName: str, diretorio_padrao=True) -> bool:
+    """ remove arquivo/pasta especificada """
+
+    try:
+        if diretorio_padrao:
+            return not bool(os.remove(__path__ + '\\' + fileName))
+
+        else:
+            return not bool(os.remove(fileName))
+        
+    except FileNotFoundError:
+        return False
+
+def appendFile(fileName: str, dados: str | list | tuple) -> bool:
+    if type(dados) not in (str, list, tuple):
+        return False
+
+    with open(__path__ + '\\' + fileName, 'a') as f:
+        if type(dados) == str:
+            f.write(dados + '\n')
+        
+        elif type(dados) in (list, tuple):
+            for i in dados:
+                f.write(i + '\n')
 
 
 class Json:

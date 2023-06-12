@@ -19,6 +19,7 @@ from .fbutton import verificar, cadastrar, adicionar, continuar
 from .bind import bind_manualmente, bind_verificar
 
 from ..bitrix import Bitrix
+from ..__init import delFile
 
 class GUI:
     def __init__(self, master):
@@ -71,8 +72,9 @@ class GUI:
         verificar(self)
     
     def fbutton_cadastrar(self):
-        ag.alert('Em desenvolvimento :)')
+        # ag.alert('Em desenvolvimento :)')
         # cadastrar(self)
+        print(delFile('aaa.a'))
 
     def fbutton_adicionar(self):
         adicionar(self)

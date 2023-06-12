@@ -13,6 +13,7 @@ requested : master(
 
 from tkinter import *
 import pyautogui as ag
+from ..sobre import text
 
 class Menu:
     def __init__(self, master):
@@ -50,8 +51,11 @@ class Menu:
         self.button_atendimentos = Button(self.buttons_container, text='Atendimentos', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.atendimentos)
         self.button_atendimentos.place(relheight=0.35, relwidth=1, rely=0.66)
 
-        Button(self.menu, text='Sair', justify='right', background=backgroud, fg='white', bd=0, command=self.master.login).place(relx=0.05, rely=0.93)
+        Button(self.menu, text='sair', justify='right', background=backgroud, fg='white', bd=0, command=self.master.login).place(relx=0.05, rely=0.88)
+        Button(self.menu, text='sobre', justify='right', background=backgroud, fg='white', bd=0, command=self.sobre).place(relx=0.05, rely=0.93)
 
+    def sobre(self):
+        ag.alert(text)
 
     def saf(self):
         self.master.saf(self.master)
