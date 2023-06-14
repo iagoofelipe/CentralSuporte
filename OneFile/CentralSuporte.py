@@ -2,8 +2,8 @@
 import sys
 
 # módulos locais
-from tools import Arguments, Json, isFile
 from src.GUI import Application
+from tools import Arguments
 
 def bind(env):
     print(env)
@@ -17,5 +17,4 @@ if __name__ == "__main__":
         app.root.mainloop()
     
     else:
-        pass
-        # argv = Arguments(__path__, argvs)
+        argv = Arguments(argvs)

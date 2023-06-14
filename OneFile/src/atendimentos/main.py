@@ -13,7 +13,7 @@ def sincronizar(dados_atendimentos):
     gid = 1396832583
     local_dir = Json.getJson(__path__ + 'settings.json')["atendimentos-files"]
 
-    if not isFile(local_dir + 'tipos_de_atendimentos.json', diretorio_padrao=False) or dados_atendimentos == None:
+    if not isFile(local_dir + 'atendimentos_local.json', diretorio_padrao=False):
         ag.alert('Nenhum dado a ser sincronizado!')
         return
 
@@ -22,11 +22,16 @@ def sincronizar(dados_atendimentos):
         'https://www.googleapis.com/auth/drive'
     ]
 
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(local_dir + 'credentials.json', scopes) #acessa o arquivo json com credenciais da planilha
-    file = gspread.authorize(credentials) # authenticate the JSON key with gspread
+    try:
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(local_dir + 'credentials.json', scopes) #acessa o arquivo json com credenciais da planilha
+        file = gspread.authorize(credentials) # authenticate the JSON key with gspread
 
-    # planilha e guia
-    ss = file.open(nome_planilha) #open sheet
+        # planilha e guia
+        ss = file.open(nome_planilha) #open sheet
+    except:
+        ag.alert('Verifique sua conexão de internet ou horário local!')
+        return
+    
     guiaCS = ss.get_worksheet_by_id(gid)
     row = guiaCS.row_count + 1
 

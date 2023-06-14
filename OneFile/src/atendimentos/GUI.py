@@ -1,13 +1,22 @@
 # módulos Python
 from tkinter.ttk import Combobox
 from tkinter import *
+import pyautogui as ag
 
 # módulos locais
-from tools import Json, __path__
+from tools import Json, isFile, __path__
 from src.atendimentos.main import sincronizar
 
 class GUI:
     def __init__(self, master):
+        # arquivos, caminhos e dados de arquivos
+        self.settings = Json.getJson(__path__ + 'settings.json')
+        self.local_dir = self.settings["atendimentos-files"]
+        self.fileName = self.local_dir + 'atendimentos_local.json'
+        self.dados_atendimentos = Json.getJson(self.fileName)
+
+        self.__ERROR()
+
         # configurações de root e janelas
         self.master = master
         self.root = master.root
@@ -24,10 +33,15 @@ class GUI:
         self.container()
         self.user = master.user
 
-        self.local_dir = Json.getJson(__path__ + 'settings.json')["atendimentos-files"]
-        self.fileName = self.local_dir + 'atendimentos_local.json'
-        self.dados_atendimentos = Json.getJson(self.fileName)
         self.sincronizar = sincronizar
+        
+
+    def __ERROR(self):
+        dlls = self.settings['dll']['atendimentos']
+        for fileName in dlls:
+            if not isFile(self.local_dir + fileName, diretorio_padrao=False):
+                ag.alert(f'FileNotFoundError\n {fileName=}')
+                raise FileNotFoundError
 
 
     def container(self):
@@ -51,7 +65,7 @@ class GUI:
 
     def __combobox_values(self) -> list:
         retorno, num_key = [], 0
-        combobox_values = Json.getJson(self.__path__ + r'\src\atendimentos\files\tipos_de_atendimentos.json')
+        combobox_values = Json.getJson(self.local_dir + 'tipos_de_atendimentos.json')
 
         for key, items in combobox_values.items():
             num_key += 1

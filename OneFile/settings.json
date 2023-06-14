@@ -1,7 +1,14 @@
 {
-    "__path__":"d:\\git\\CentralSuporte\\OneFile\\",
-    "atendimentos-files":"d:\\git\\CentralSuporte\\OneFile\\src\\atendimentos\\files\\",
+    "__path__":"C:\\Users\\IAGO\\Desktop\\iago\\git\\CentralSuporte\\OneFile\\\\",
+    "atendimentos-files":"C:\\Users\\IAGO\\Desktop\\iago\\git\\CentralSuporte\\OneFile\\files\\atendimentos\\\\",
+    "files-path":"C:\\Users\\IAGO\\Desktop\\iago\\git\\CentralSuporte\\OneFile\\files\\",
     "build-version":"1.0.0",
+    "dll":{
+        "atendimentos":[
+            "credentials.json",
+            "tipos_de_atendimentos.json"
+        ]
+    },
     "users":[
         "IAGO",
         "HEVERTON",

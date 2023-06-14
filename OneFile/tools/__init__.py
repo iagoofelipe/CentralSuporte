@@ -1,3 +1,4 @@
+from typing import Any
 import win32com.shell.shell as shell
 import os, subprocess, sys
 
@@ -47,7 +48,7 @@ class Registros:
                 adm_exe = False
 #------------------------------------------------------------------
 try:
-    __path__ = Registros().get('__path__')
+    __path__ = Registros.get('__path__')
 except:
     pass
 #---------------------------ADM------------------------------------
@@ -290,21 +291,16 @@ class GetDadosBase:
 
 #---------------------------------POSITIONAL ARGUMENTS---------------------------------
 class Arguments:
+
     def __init__(self, argvs : list):
         self.__path__ = __path__
-        self.argv = argvs
+        self.categoria = argvs[0]
+        self.parametros = argvs[1:]
+
+
+    def executar(self):
+        from src.atendimentos import argv as atendimentos
+        from src.bitrix import argv as bitrix
+
         
-        self.__exe()
-
-
-    def __exe(self):
-        
-        match self.argv[0]:
-
-            case 'wpp':
-                # wpp(self.__path__, self.argv[1:])
-                pass
-
-            case 'teste':
-                print(self.__path__)
 #--------------------------------------------------------------------------------------

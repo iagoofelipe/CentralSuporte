@@ -25,14 +25,14 @@ class Application:
         # configurações de root e janelas
         self.root = Tk()
         self.__geometry(700, 600)
-        self.root.iconbitmap(self.__path__ + '/images/icon.ico') # icone da janela
+        self.root.iconbitmap(self.__path__ + r'files\icon.ico') # icone da janela
         self.root.resizable(False, False) # responsividade
         self.root.title('Central Suporte')
         self.bg_color = 'lightgray'
         self.root.config(background=self.bg_color)
         
         # elementos gerais
-        self.users = Json.getJson(self.__path__ + r'\settings.json')['users']
+        self.users = Json.getJson(self.__path__ + r'settings.json')['users']
         self.button_color = '#bcbcbc'
         self.button_clicked_color = '#999999'
         self.font_name = None
