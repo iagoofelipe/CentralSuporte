@@ -13,9 +13,9 @@ requested : master(
 
 from tkinter import *
 import pyautogui as ag
-from tools import Registros
+from tools import Registros as reg
 
-__version__ = Registros().get('build-version')
+__version__ = reg.get('build-version')
 text = f"""Build version: {__version__}
 
 Developed by Iago Carvalho

@@ -13,12 +13,10 @@ from tkinter import *
 from tkinter import font
 
 # subprocessos
-from tools import Json, Registros
+from tools import Json, Registros as reg
 from src.GUI.Menu import Menu
 from src.GUI.Login import Login
 from src.atendimentos.GUI import GUI as gui_atendimentos
-
-reg = Registros()
 
 class Application:
     def __init__(self):

@@ -3,8 +3,8 @@ import os, subprocess, sys
 
 """ 
 categorias:
-    ADM
     REG
+    ADM
     CPF
     FILE
     POSITIONAL ARGUMENTS
@@ -15,18 +15,14 @@ categorias:
 
 
 #---------------------------REG------------------------------------
-
+KEYNAME =  r'HKEY_LOCAL_MACHINE\SOFTWARE\CentralSuporte'
 class Registros:
     """ Dados armazenados no Editor de Registro do Windows """
 
-    def __init__(self):
-        self.KEYNAME = r'HKEY_LOCAL_MACHINE\SOFTWARE\CentralSuporte'
-        self.registros = {}
-        self.__execADM = False # para que seja executado como administrador apenas uma vez
-
-    def get(self, nome='all') -> dict:
+    def get(nome='all') -> dict:
         """ lendo dados de registro """
-        output = subprocess.check_output(rf'reg query {self.KEYNAME}').decode(errors='ignore').replace(f'\r\n{self.KEYNAME}\r\n    ', '').split('\r\n')
+        output = subprocess.check_output(rf'reg query {KEYNAME}').decode(errors='ignore').replace(f'\r\n{KEYNAME}\r\n    ', '').split('\r\n')
+        historico_de_registros = {}
 
         for linha in output:
             linha = linha.strip().split('    REG_SZ    ') # removendo espaço no início e separando chave de dados
@@ -34,20 +30,21 @@ class Registros:
             if linha == ['']:
                 pass
             else:
-                self.registros[linha[0]] = linha[1]
+                historico_de_registros[linha[0]] = linha[1]
         
-        return self.registros if nome == 'all' else self.registros[nome]
+        return historico_de_registros if nome == 'all' else historico_de_registros[nome]
 
-    def set(self, **kwargs) -> None:
+    def set(**kwargs) -> None:
+        adm_exe = True
         if 'dict' in kwargs:
             kwargs = kwargs['dict']
 
         for nome, dados in kwargs.items():
-            os.system(f'reg add {self.KEYNAME} /v {nome} /d "{dados}" /f')
-        
-        if not self.__execADM:
-            adm()
-            self.__execADM = True
+            os.system(f'reg add {KEYNAME} /v {nome} /d "{dados}" /f')
+            
+            if adm_exe:
+                adm()
+                adm_exe = False
 #------------------------------------------------------------------
 try:
     __path__ = Registros().get('__path__')

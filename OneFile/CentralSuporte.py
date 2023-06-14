@@ -2,7 +2,7 @@
 import sys
 
 # módulos locais
-from tools import Arguments, Json, isFile, Registros
+from tools import Arguments, Json, isFile
 from src.GUI import Application
 
 def bind(env):

@@ -1,22 +1,19 @@
 import os
-from tools import Json, adm
+from tools import Json, adm, Registros as reg
 
 __path__ = os.path.abspath('')
 fileName = __path__ + r'\settings.json'
-users = '"IAGO, HEVERTON, SAMUEL, JOAO, PEDRO"'
+users = 'IAGO, HEVERTON, SAMUEL, JOAO, PEDRO'
    
 settings = {
     "build-version" : "1.0.0",
-    "users" : users.replace('"', '').split(', '),
+    "users" : users,
     "__path__" : __path__ + '\\',
     "atendimentos-files" : __path__ + "\\src\\atendimentos\\files\\"
 }
-text = f'reg add HKEY_LOCAL_MACHINE\SOFTWARE\CentralSuporte /v'
-
-os.system(f'{text} {"build-version"} /d {settings["build-version"]} /f')
-os.system(f'{text} {"users"} /d {users} /f')
-os.system(f'{text} {"__path__"} /d {settings["__path__"]} /f')
-
-Json.setJson(settings, fileName)
+    
+reg.set(dict=settings)
+settings['users'] = users.split(', ')
+# Json.setJson(settings, fileName)
 
 adm() # para testes, remover ao gerar executável
