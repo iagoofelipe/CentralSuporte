@@ -1,7 +1,7 @@
-import os, sys
+import os
 from tools import Json, adm
 
-__path__ = sys.path[0]
+__path__ = os.path.abspath('')
 fileName = __path__ + r'\settings.json'
 users = '"IAGO, HEVERTON, SAMUEL, JOAO, PEDRO"'
    
@@ -19,4 +19,4 @@ os.system(f'{text} {"__path__"} /d {settings["__path__"]} /f')
 
 Json.setJson(settings, fileName)
 
-adm()
+adm() # para testes, remover ao gerar executável

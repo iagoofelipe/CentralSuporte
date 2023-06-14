@@ -49,7 +49,6 @@ class Registros:
             adm()
             self.__execADM = True
 #------------------------------------------------------------------
-
 try:
     __path__ = Registros().get('__path__')
 except:
@@ -63,7 +62,6 @@ def adm():
         params = ' '.join([script] + sys.argv[1:] + [ASADMIN])
         shell.ShellExecuteEx(lpVerb='runas', lpFile=sys.executable, lpParameters=params)
 #------------------------------------------------------------------
-
 
 #---------------------------CPF------------------------------------
 """ 
