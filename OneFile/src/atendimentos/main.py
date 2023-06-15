@@ -59,3 +59,4 @@ def sincronizar(dados_atendimentos):
 
     Json.setJson(Json.getJson(atend_file), temp_file)
     os.remove(atend_file)
+    ag.alert('Dados sincronizados com êxito!')

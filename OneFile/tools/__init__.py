@@ -231,7 +231,8 @@ def appendFile(fileName: str, dados: str | list | tuple) -> bool:
         
         elif type(dados) in (list, tuple):
             for i in dados:
-                f.write(i + '\n')
+                f.write(i + ';')
+            f.write('\n')
 
 
 class Json:
