@@ -299,8 +299,14 @@ class Arguments:
 
 
     def executar(self):
+        """ Chamativa do correspondente parâmetro """
         from src.atendimentos import argv as atendimentos
         from src.bitrix import argv as bitrix
 
-        
+        func = {'atendimentos': atendimentos, 'bitrix': bitrix}
+
+        try:
+            func[self.categoria](self.parametros)
+        except KeyError:
+            print('texto de ajuda')
 #--------------------------------------------------------------------------------------

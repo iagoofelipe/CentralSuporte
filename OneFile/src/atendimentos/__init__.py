@@ -7,7 +7,7 @@ os atendimentos feitos durante o dia.
 
     py Suporte.saf comando <valores>
 
-        -s
+        --s
             sincronizando dados locais com database
 
         -h
@@ -25,7 +25,7 @@ def argv(argvs):
     fileName = local_dir + 'atendimentos_local.json'
 
     match argvs[0]:
-        case '-s':
+        case '--s':
             dados_atendimentos = Json.getJson(fileName)
             sincronizar(dados_atendimentos)
 
