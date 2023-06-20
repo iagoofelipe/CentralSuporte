@@ -9,8 +9,8 @@ from tools import Json, __path__, isFile
 
 # sincronizar
 def sincronizar(dados_atendimentos):
-    nome_planilha = "CONTROLE DE CHAMADOS E ATENDIMENTOS"
-    gid = 1396832583
+    nome_planilha = "Central Suporte"
+    gid = 2116175800
     local_dir = Json.getJson(__path__ + 'settings.json')["atendimentos-files"]
 
     if not isFile(local_dir + 'atendimentos_local.json', diretorio_padrao=False):
