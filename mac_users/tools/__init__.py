@@ -153,10 +153,10 @@ import pyautogui as ag
 import gspread
 
 def sincronizar(dados_atendimentos):
-    # nome_planilha = "Central Suporte"
-    # gid = 290441748
-    nome_planilha = "teste"
-    gid = 1359927816
+    nome_planilha = "Central Suporte"
+    gid = 290441748
+    # nome_planilha = "teste"
+    # gid = 1359927816
     
     scopes = [
         'https://www.googleapis.com/auth/spreadsheets',
@@ -275,14 +275,6 @@ def validarCPF(cpf: str) -> bool:
         return False
 
     return True
-#------------------------------------------------------------------
-
-def toString(dados: list) -> str:
-        retorno = ''
-        for i in dados:
-            retorno += str(i) + '     '
-        
-        return retorno
 
 #---------------------------------------------------------------------
 def resource_path(relative_path):
@@ -307,7 +299,7 @@ class App:
         self.root.title('Inventário Certfy')
 
         self.container()
-        ag.alert(resource_path('certfy.ico'))
+        # ag.alert(resource_path('certfy.ico'))
 
     def __geometry(self, width, height):
         """ configurando tamanho e centralização da janela """
