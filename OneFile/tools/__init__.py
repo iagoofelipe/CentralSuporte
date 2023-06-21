@@ -41,7 +41,7 @@ class Registros:
             kwargs = kwargs['dict']
 
         for nome, dados in kwargs.items():
-            os.system(f'reg add {KEYNAME} /v {nome} /d "{dados}" /f')
+            os.system(f'reg add {KEYNAME} /v {str(nome)} /d "{str(dados)}" /f')
             
             if adm_exe:
                 adm()
@@ -251,43 +251,31 @@ class Json:
             json.dump(dados, f, ensure_ascii=False, sort_keys=True, indent=4, separators=(',', ':'))
 
 
-class GetDadosBase:
-    def get(self) -> dict:
-        """ pegando informações necessárias (cpf, nome, email) da base """
-        dados_base = {}
+def getBaseGestao(fileName='/files/base_gestao.csv') -> dict:
+    """ pegando informações necessárias (cpf, nome, email) da base """
 
-        with open(__path__ + '/files/base_gestao.csv') as arquivo:
-            try:
-                linhas = arquivo.readlines()
-            except UnicodeDecodeError:
-                print('Converta o arquivo base para csv (separado por vírgulas)')
-                from sys import exit
-                exit('Saindo')
+    from my_tools import encode
+    dados_base = {}
 
-            for linha in linhas:
-                linha = linha.strip('\n')
+    with open(__path__ + fileName) as arquivo:
+        try:
+            linhas = arquivo.readlines()
+        except UnicodeDecodeError:
+            print('Converta o arquivo base para csv (separado por vírgulas)!')
+            return
 
-                _, cpf, _nome, email, *_ = linha.split(';')
-                _nome, *_ = _nome.split('-')
+        for linha in linhas:
+            linha = linha.strip('\n')
 
-                _nome = self.nome(_nome)
-                email = self.encode(email, upper=False)
+            _, cpf, nome, email, *_ = linha.split(';')
+            nome, *_ = nome.split('-')
 
-                dados_base[cpf] = [_nome, email]
+            nome = encode(nome.strip(), upper=True)
+            email = encode(email, upper=False)
 
-        return dados_base
-    
+            dados_base[cpf] = [nome, email]
 
-    def encode(self, name, upper=True) -> str:
-        from unicodedata import normalize
-
-        ascii_name = normalize("NFKD", name).encode("ascii", errors="ignore").decode("ascii")        
-        return ascii_name.upper() if upper else ascii_name
-
-
-    def nome(self, name) -> str:
-        """ Remove caractere inicial em branco, caso haja, e retorna decodicidado em upperCase """
-        return self.encode(name.strip())
+    return dados_base
 #------------------------------------------------------------------
 
 #---------------------------------POSITIONAL ARGUMENTS---------------------------------

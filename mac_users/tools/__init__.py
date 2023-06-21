@@ -153,9 +153,11 @@ import pyautogui as ag
 import gspread
 
 def sincronizar(dados_atendimentos):
-    nome_planilha = "Central Suporte"
-    gid = 290441748
-
+    # nome_planilha = "Central Suporte"
+    # gid = 290441748
+    nome_planilha = "teste"
+    gid = 1359927816
+    
     scopes = [
         'https://www.googleapis.com/auth/spreadsheets',
         'https://www.googleapis.com/auth/drive'
@@ -173,7 +175,6 @@ def sincronizar(dados_atendimentos):
     
     guiaCS = ss.get_worksheet_by_id(gid)
     row = guiaCS.row_count + 1
-    column = 0
 
     guiaCS.add_rows(1)
     cell_list = guiaCS.range(row, 1, row, len(dados_atendimentos))
@@ -283,6 +284,17 @@ def toString(dados: list) -> str:
         
         return retorno
 
+#---------------------------------------------------------------------
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+#---------------------------------------------------------------------
 #-------------------------------GUI-----------------------------------
 from tkinter import *
 class App:
@@ -290,11 +302,12 @@ class App:
         self.root = Tk()
 
         self.__geometry(300,300)
-        self.root.iconbitmap('certfy.ico') # icone da janela
+        self.root.iconbitmap(resource_path('certfy.ico')) # icone da janela
         self.root.resizable(False, False) # responsividade
         self.root.title('Inventário Certfy')
 
         self.container()
+        ag.alert(resource_path('certfy.ico'))
 
     def __geometry(self, width, height):
         """ configurando tamanho e centralização da janela """
@@ -324,4 +337,3 @@ class App:
             return
         
         ag.alert('CPF inválido, digite somente os números!')
-#---------------------------------------------------------------------
