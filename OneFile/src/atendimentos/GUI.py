@@ -40,7 +40,7 @@ class GUI:
         dlls = self.settings['dll']['atendimentos']
         for fileName in dlls:
             if not isFile(self.local_dir + fileName, diretorio_padrao=False):
-                ag.alert(f'FileNotFoundError\n {fileName=}')
+                ag.alert(f'FileNotFoundError\n {self.local_dir + fileName}')
                 raise FileNotFoundError
 
 

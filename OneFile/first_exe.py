@@ -17,5 +17,3 @@ settings = {
 reg.set(dict=settings)
 settings['users'] = users.split(', ')
 Json.setJson(settings, fileName)
-
-# adm() # para testes, remover ao gerar executável

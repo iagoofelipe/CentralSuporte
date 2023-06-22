@@ -21,7 +21,7 @@ def sincronizar(dados_atendimentos, credentials_path):
         ss = file.open(nome_planilha) #open sheet
     except:
         ag.alert('Verifique sua conexão de internet ou horário local!')
-        return
+        raise ConnectionError
     
     guiaCS = ss.get_worksheet_by_id(gid)
     row = guiaCS.row_count + 1
