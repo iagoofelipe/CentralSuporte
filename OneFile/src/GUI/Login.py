@@ -1,4 +1,5 @@
 from tkinter import *
+from my_tools import encode
 
 class Login:
     def __init__(self, master):
@@ -39,7 +40,7 @@ class Login:
 
 
     def fbutton_entrar(self, event=None):
-        usuario = self.usuario.get().upper()
+        usuario = encode(self.usuario.get(), upper=True)
 
         if usuario not in self.users:
             self.error_label['text'] = 'Usuário incorreto ou não cadastrado!'

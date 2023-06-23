@@ -1,7 +1,8 @@
 # módulos Python
+from datetime import datetime as dt
 from tkinter.ttk import Combobox
-from tkinter import *
 import pyautogui as ag
+from tkinter import *
 
 # módulos locais
 from tools import Json, isFile, __path__
@@ -14,6 +15,7 @@ class GUI:
         self.local_dir = self.settings["atendimentos-files"]
         self.fileName = self.local_dir + 'atendimentos_local.json'
         self.dados_atendimentos = Json.getJson(self.fileName)
+        self.categoria = {}
 
         self.__ERROR()
 
@@ -57,11 +59,12 @@ class GUI:
         Label(self.container_center, text='telefone:', font=self.font).place(relx=0.05, rely=0.26)
         self.telefone = Entry(self.container_center)
         self.telefone.place(relx=0.05, rely=0.3)
+        self.telefone.bind('<Return>', self.fbutton_contabilizar)
 
         Label(self.container_center, text='descrição:', font=self.font).place(relx=0.05, rely=0.36)
         self.descricao = Entry(self.container_center, font=self.font, justify='left')
         self.descricao.place(relx=0.05, rely=0.4, relwidth=0.5)
-
+        self.descricao.bind('<Return>', self.fbutton_contabilizar)
 
     def __combobox_values(self) -> list:
         retorno, num_key = [], 0
@@ -72,9 +75,11 @@ class GUI:
             num_item = 1
 
             retorno.append(f'{num_key} - {key}')
+            self.categoria[f'{num_key} - {key}'] = key
 
             for i in items:
                 retorno.append(f'--{num_key}.{num_item} {i}')
+                self.categoria[f'--{num_key}.{num_item} {i}'] = key
                 num_item += 1
         
         return retorno
@@ -94,6 +99,7 @@ class GUI:
         tipo_atendimento = self.tipo_atendimento.get()
         telefone = self.telefone.get()
         descricao = self.descricao.get()
+        self.user = self.master.user
 
         if tipo_atendimento == '' or telefone == '':
             self.alert()
@@ -104,8 +110,12 @@ class GUI:
         if self.dados_atendimentos == None:
             self.dados_atendimentos = {}
 
+        zero_esquerda = lambda num: str(num).zfill(2)
+        today = dt.today()
         key = str(len(self.dados_atendimentos))
-        self.dados_atendimentos[key] = [self.user, tipo_atendimento, telefone, descricao]
+        date = f'{zero_esquerda(today.day)}/{zero_esquerda(today.month)}/{today.year}'
+        
+        self.dados_atendimentos[key] = [self.user, tipo_atendimento, self.categoria[tipo_atendimento], telefone, descricao, date]
 
         Json.setJson(self.dados_atendimentos, self.fileName)
 

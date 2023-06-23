@@ -12,6 +12,7 @@ def sincronizar(dados_atendimentos):
     nome_planilha = "Central Suporte"
     gid = 2116175800
     local_dir = Json.getJson(__path__ + 'settings.json')["atendimentos-files"]
+    
 
     if not isFile(local_dir + 'atendimentos_local.json', diretorio_padrao=False):
         ag.alert('Nenhum dado a ser sincronizado!')
@@ -41,7 +42,7 @@ def sincronizar(dados_atendimentos):
         dados = dados_atendimentos[i]
         
         i = int(i) + row
-        cell_list = guiaCS.range(i, 1, i, 4)
+        cell_list = guiaCS.range(i, 1, i, len(dados))
         num = 0
 
         for cell in cell_list:
