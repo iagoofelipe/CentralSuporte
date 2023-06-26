@@ -26,7 +26,7 @@ class Wpp:
         self.users = users
 
 
-    def __setCheckbox(self) -> int:
+    def setCheckbox(self) -> int:
         """ marca e conta checkboxs de etiquetas """
         count = 0
         
@@ -85,7 +85,7 @@ class Wpp:
                 self.valores[posicao] = 0
             
             else:
-                contagem = self.__setCheckbox()
+                contagem = self.setCheckbox()
                 self.valores[posicao] = contagem
             
             posicao += 1

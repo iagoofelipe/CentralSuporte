@@ -12,6 +12,9 @@ Utilizado para argumentos posicionais.
         --w
             contagem e remoção de etiquetas (Wpp.exe)
 
+        --c
+            contagem e remoção de etiquetas sem sincronização (Wpp.setCheckbox)
+
         -h
             descrição de parâmetros
         
@@ -67,6 +70,9 @@ if __name__ == '__main__':
                 wpp = Wpp()
                 wpp.exe()
 
+            case '--c':
+                wpp = Wpp()
+                wpp.setCheckbox()
 
             case '-h':
                 print(h)
