@@ -113,7 +113,8 @@ class GUI:
         zero_esquerda = lambda num: str(num).zfill(2)
         today = dt.today()
         key = str(len(self.dados_atendimentos))
-        date = f'{zero_esquerda(today.day)}/{zero_esquerda(today.month)}/{today.year}'
+        # date = f'{zero_esquerda(today.day)}/{zero_esquerda(today.month)}/{today.year}'
+        date = f'{zero_esquerda(today.month)}/{zero_esquerda(today.day)}/{today.year}' # padrão norteamericano, para funcionar no Apps Script
         
         self.dados_atendimentos[key] = [self.user, tipo_atendimento, self.categoria[tipo_atendimento], telefone, descricao, date]
 
