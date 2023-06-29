@@ -4,10 +4,12 @@ como __path__, build-version e entre outros.
 """
 
 import os
-from my_tools import File, Registros as reg
+from pyautogui import alert
+from my_tools import File, resource_path, Registros as reg
 
 __version__ = '1.0.0'
 sys_path = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'CentralSuporte', '')
+home_path = os.path.join(os.path.expanduser('~'), 'desktop', '')
 files_path = os.path.join(sys_path, 'Files', '')
 users = 'IAGO, HEVERTON, SAMUEL, JOAO, PEDRO'
 
@@ -34,7 +36,13 @@ settings_json = {
 if __name__ == '__main__':
     os.mkdir(sys_path) if not os.path.exists(sys_path) else None
 
-    os.system(r'xcopy dependences {} /e'.format(sys_path))
+    os.system(r'xcopy {} {} /e /y'.format(resource_path('dependences'), sys_path))
     reg.set(KEYNAME, dict=settings_reg)
 
     File.toFile(sys_path + 'settings.json', settings_json)
+
+    # atalho área de trabalho
+    src = r'{}dll\CentralSuporte.exe'.format(sys_path)
+    dst = f'{home_path}Central Suporte'
+
+    os.symlink(src, dst)
