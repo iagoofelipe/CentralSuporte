@@ -34,6 +34,7 @@ class Menu:
 
         # chamativa de métodos
         self.__container()
+        self.atendimentos()
 
     def desenvolvimento(self):
         ag.alert('Em desenvolvimento :)')
@@ -48,17 +49,20 @@ class Menu:
         Label(self.menu, text=f'Usuário:\n{self.user}', justify='left', background=backgroud, fg='white').place(relx=0.01, rely=0.03)
 
         # botões
-        self.buttons_container = Frame(self.menu, background='white')
-        self.buttons_container.place(relheight=0.452, relwidth=1, rely=0.274)
+        # self.buttons_container = Frame(self.menu, background='white')
+        # self.buttons_container.place(relheight=0.452, relwidth=1, rely=0.274)
 
-        self.button_saf = Button(self.buttons_container, text='SAF', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.desenvolvimento)
-        self.button_saf.place(relheight=0.35, relwidth=1, rely=0)
+        # self.button_saf = Button(self.buttons_container, text='SAF', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.desenvolvimento)
+        # self.button_saf.place(relheight=0.35, relwidth=1, rely=0)
         
-        self.button_bioac = Button(self.buttons_container, text='BioAC', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.desenvolvimento)
-        self.button_bioac.place(relheight=0.30, relwidth=1, rely=0.355)
+        # self.button_bioac = Button(self.buttons_container, text='BioAC', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.desenvolvimento)
+        # self.button_bioac.place(relheight=0.30, relwidth=1, rely=0.355)
 
-        self.button_atendimentos = Button(self.buttons_container, text='Atendimentos', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.atendimentos)
-        self.button_atendimentos.place(relheight=0.35, relwidth=1, rely=0.66)
+        # self.button_atendimentos = Button(self.buttons_container, text='Atendimentos', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.atendimentos)
+        # self.button_atendimentos.place(relheight=0.35, relwidth=1, rely=0.66)
+
+        self.button_atendimentos = Button(self.menu, text='Atendimentos', bd=0, background=self.button_color, activebackground=self.button_clicked_color, command=self.atendimentos)
+        self.button_atendimentos.place(rely=0.5, relwidth=1, relheight=0.1, anchor=['w'])
 
         Button(self.menu, text='sair', justify='right', background=backgroud, fg='white', bd=0, command=self.master.login).place(relx=0.05, rely=0.88)
         Button(self.menu, text='sobre', justify='right', background=backgroud, fg='white', bd=0, command=self.sobre).place(relx=0.05, rely=0.93)

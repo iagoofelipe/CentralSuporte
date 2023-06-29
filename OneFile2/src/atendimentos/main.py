@@ -5,16 +5,18 @@ import gspread
 import os
 
 # módulos locais
-from tools import Json, __path__, isFile
+from my_tools import File, Registros as reg
+
 
 # sincronizar
 def sincronizar(dados_atendimentos):
     nome_planilha = "Central Suporte"
     gid = 2116175800
-    local_dir = Json.getJson(__path__ + 'settings.json')["atendimentos-files"]
+    __path__ = reg.get(nome='__path__')
+    local_dir = File.getFile(__path__ + 'settings.json')["atendimentos-files"]
     
 
-    if not isFile(local_dir + 'atendimentos_local.json', diretorio_padrao=False):
+    if not File.isFile(local_dir + 'atendimentos_local.json'):
         ag.alert('Nenhum dado a ser sincronizado!')
         return
 
@@ -55,9 +57,9 @@ def sincronizar(dados_atendimentos):
     temp_file = local_dir + r'Temp\atendimentos_local.json'
     atend_file = local_dir + 'atendimentos_local.json'
 
-    if not os.path.exists(temp_path):
+    if not File.isFile(temp_path):
         os.mkdir(temp_path)
 
-    Json.setJson(Json.getJson(atend_file), temp_file)
+    File.toFile(temp_file, File.getFile(atend_file))
     os.remove(atend_file)
     ag.alert('Dados sincronizados com êxito!')

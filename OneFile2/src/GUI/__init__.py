@@ -13,28 +13,26 @@ from tkinter import *
 from tkinter import font
 
 # subprocessos
-from my_tools import Registros as reg
+from my_tools import File, Registros as reg
 from src.GUI.Menu import Menu
 from src.GUI.Login import Login
 from src.atendimentos.GUI import GUI as gui_atendimentos
 
 class Application:
-    def __init__(self, users):
-        self.__reg = reg.get()
-        self.__path__ = self.__reg['__path__']
-        self.files_path = self.__reg['files-path']
+    def __init__(self):
+        self.__path__ = reg.get(nome='__path__')
 
         # configurações de root e janelas
         self.root = Tk()
         self.__geometry(700, 600)
-        self.root.iconbitmap(self.files_path + 'icon.ico') # icone da janela
+        self.root.iconbitmap(self.__path__ + r'icon.ico') # icone da janela
         self.root.resizable(False, False) # responsividade
         self.root.title('Central Suporte')
         self.bg_color = 'lightgray'
         self.root.config(background=self.bg_color)
         
         # elementos gerais
-        self.users = users
+        self.users = File.getFile(self.__path__ + r'settings.json')['users']
         self.button_color = '#bcbcbc'
         self.button_clicked_color = '#999999'
         self.font_name = None

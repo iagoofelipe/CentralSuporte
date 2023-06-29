@@ -5,24 +5,26 @@ import pyautogui as ag
 from tkinter import *
 
 # módulos locais
-from tools import Json, isFile, __path__
+from my_tools import File, Registros as reg
 from src.atendimentos.main import sincronizar
+
+_reg = reg.get()
 
 class GUI:
     def __init__(self, master):
         # arquivos, caminhos e dados de arquivos
-        self.settings = Json.getJson(__path__ + 'settings.json')
+        self.settings = File.getFile(_reg['__path__'] + 'settings.json')
         self.local_dir = self.settings["atendimentos-files"]
         self.fileName = self.local_dir + 'atendimentos_local.json'
-        self.dados_atendimentos = Json.getJson(self.fileName)
+        self.dados_atendimentos = File.getFile(self.fileName)
         self.categoria = {}
 
         self.__ERROR()
 
         # configurações de root e janelas
+        self.__path__ = _reg['__path__']
         self.master = master
         self.root = master.root
-        self.__path__ = __path__
 
         # elementos de botões
         self.font = ('Segoe UI', 10)
@@ -41,7 +43,7 @@ class GUI:
     def __ERROR(self):
         dlls = self.settings['dll']['atendimentos']
         for fileName in dlls:
-            if not isFile(self.local_dir + fileName, diretorio_padrao=False):
+            if not File.isFile(self.local_dir + fileName):
                 ag.alert(f'FileNotFoundError\n {self.local_dir + fileName}')
                 raise FileNotFoundError
 
@@ -68,7 +70,7 @@ class GUI:
 
     def __combobox_values(self) -> list:
         retorno, num_key = [], 0
-        combobox_values = Json.getJson(self.local_dir + 'tipos_de_atendimentos.json')
+        combobox_values = File.getFile(self.local_dir + 'tipos_de_atendimentos.json')
 
         for key, items in combobox_values.items():
             num_key += 1
@@ -105,7 +107,7 @@ class GUI:
             self.alert()
             return
         
-        self.dados_atendimentos = Json.getJson(self.fileName)
+        self.dados_atendimentos = File.getFile(self.fileName)
 
         if self.dados_atendimentos == None:
             self.dados_atendimentos = {}
@@ -118,7 +120,7 @@ class GUI:
         
         self.dados_atendimentos[key] = [self.user, tipo_atendimento, self.categoria[tipo_atendimento], telefone, descricao, date]
 
-        Json.setJson(self.dados_atendimentos, self.fileName)
+        File.toFile(self.fileName, self.dados_atendimentos)
 
         self.tipo_atendimento.delete(0, END)
         self.telefone.delete(0, END)
