@@ -43,7 +43,7 @@ class ImageLabel(tk.Label):
             self.after(self.delay, self.next_frame)
 
 
-class Update:
+class GIF:
     def __init__(self):
         self.root = tk.Tk()
         self.__path__ = reg.get(nome='__path__')
@@ -109,8 +109,3 @@ class Update:
             self.final()
 
         self.root.after(1000, self.destroy)
-
-
-# if __name__ == '__main__':
-#     update = Update()
-#     update.loop()

@@ -1,3 +1,6 @@
 reconhecer nomes de usuários com acento
 deixar títulos principais no combobox principal e as subcategorias em outro combobox
 listar atendimentos feitos
+
+
+alterar arquivo com última versão

@@ -11,6 +11,7 @@ requisitos :
 # módulos Python
 from tkinter import *
 from tkinter import font
+from typing import Any
 
 # subprocessos
 from my_tools import File, Registros as reg
@@ -39,11 +40,6 @@ class Application:
 
         # métodos da classe
         self.__font()
-        self.login() # primeiro layout a ser carregado
-
-        # subprocessos e outras guias/layouts
-        self.menu = Menu
-        self.atendimentos = gui_atendimentos
 
 
     def __geometry(self, width, height):
@@ -82,4 +78,9 @@ class Application:
         Login(self)
 
     def loop(self):
+        # subprocessos e outras guias/layouts
+        self.menu = Menu
+        self.atendimentos = gui_atendimentos
+        self.login() # primeiro layout a ser carregado
+
         self.root.mainloop()

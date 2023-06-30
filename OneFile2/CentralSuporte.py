@@ -2,10 +2,10 @@
 
 # módulos locais
 from src.GUI import Application
-from src.update import update
+from src.update import check_update
 
 if __name__ == "__main__":
-    update()
+    check_update()
     
     app = Application()
-    app.root.mainloop()
+    app.loop()

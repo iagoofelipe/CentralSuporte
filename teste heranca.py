@@ -74,6 +74,8 @@ class Teste(Application):
     def __init__(self):
         super().__init__()
 
+        self.bg_color = 'red'
+
 if __name__ == '__main__':
     # app = Application()
     # app.loop()
