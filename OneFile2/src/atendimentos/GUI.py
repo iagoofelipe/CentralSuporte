@@ -103,7 +103,7 @@ class GUI:
         descricao = self.descricao.get()
         self.user = self.master.user
 
-        if tipo_atendimento == '' or telefone == '':
+        if telefone == '':
             self.alert()
             return
         
@@ -118,7 +118,12 @@ class GUI:
         # date = f'{zero_esquerda(today.day)}/{zero_esquerda(today.month)}/{today.year}'
         date = f'{zero_esquerda(today.month)}/{zero_esquerda(today.day)}/{today.year}' # padrão norteamericano, para funcionar no Apps Script
         
-        self.dados_atendimentos[key] = [self.user, tipo_atendimento, self.categoria[tipo_atendimento], telefone, descricao, date]
+        try:
+            categoria = self.categoria[tipo_atendimento]
+        except KeyError:
+            categoria = 'outros'
+        
+        self.dados_atendimentos[key] = [self.user, tipo_atendimento, categoria, telefone, descricao, date]
 
         File.toFile(self.fileName, self.dados_atendimentos)
 

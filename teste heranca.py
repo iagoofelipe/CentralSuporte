@@ -13,10 +13,7 @@ from tkinter import *
 from tkinter import font
 
 # subprocessos
-from my_tools import File, Registros as reg
-from src.GUI.Menu import Menu
-from src.GUI.Login import Login
-from src.atendimentos.GUI import GUI as gui_atendimentos
+from my_tools import Registros as reg
 
 class Application:
     def __init__(self):
@@ -32,19 +29,13 @@ class Application:
         self.root.config(background=self.bg_color)
         
         # elementos gerais
-        self.users = File.getFile(self.__path__ + r'settings.json')['users']
         self.button_color = '#bcbcbc'
         self.button_clicked_color = '#999999'
         self.font_name = None
 
         # métodos da classe
         self.__font()
-        self.login() # primeiro layout a ser carregado
-
-        # subprocessos e outras guias/layouts
-        self.menu = Menu
-        self.atendimentos = gui_atendimentos
-
+        self._container_center()
 
     def __geometry(self, width, height):
         """ configurando tamanho e centralização da janela """
@@ -71,15 +62,21 @@ class Application:
 
         self.container_center = Frame(self.root)
         self.container_center.place(relx=0.15, rely=0, relheight=1, relwidth=0.85)
-    
 
-    def login(self):
-        """ interface de login, utilizado ao iniciar a classe e com fbutton_sair """
-        try:
-            self.container_center.destroy() # caso já tenha sido executado, irá encerrar a janela para um novo login ao clicar em Sair
-        except AttributeError:
-            pass
-        Login(self)
+    def texto(self):
+        Label(self.container_center, text='teste').pack(anchor='center', side='right')
 
     def loop(self):
         self.root.mainloop()
+
+
+class Teste(Application):
+    def __init__(self):
+        super().__init__()
+
+if __name__ == '__main__':
+    # app = Application()
+    # app.loop()
+
+    app = Teste()
+    app.loop()
