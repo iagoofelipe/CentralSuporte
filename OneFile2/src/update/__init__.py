@@ -5,6 +5,8 @@ from src.update.gui_update import GIF
 
 def check_update():
     registros = reg.get()
+    print(registros['server-id'])
+    return
     server_ip = registros['server-id']
 
     if not File.isFile(r'{}\last_version.json'.format(server_ip)):

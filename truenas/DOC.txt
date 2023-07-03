@@ -1,0 +1,17 @@
+Descrição por arquivos e pastas
+
+[RAIZ]
+    \src
+        contém arquivos python que não são executados diretamente (classes, funções...)
+    [CentralSuporte]
+        Contém a main principal
+
+    [server_updtade]
+        realiza atualização dos arquivos e pastas no servidor, utilizado a cada atualização de versões
+    
+    [setup1.0.2]
+        arquivo que será gerado o executável para atualizações, movendo arquivos e pastas necessárias
+
+
+
+
