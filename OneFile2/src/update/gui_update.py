@@ -86,7 +86,7 @@ class GIF:
         # carregando gif
         self.lbl = ImageLabel(self.container)
         self.lbl.pack(side='top')
-        self.lbl.load(r'C:\Users\IAGO\Desktop\gif\gato_dancando.gif')
+        self.lbl.load(r'C:\Users\CODE\Desktop\iago\gif\gato_dancando.gif')
         
         self.mensagem = tk.Label(self.root, text='atualização em andamento...\n', background=self.background_color)
         self.mensagem.pack(side='bottom')
@@ -94,7 +94,7 @@ class GIF:
 
 
     def final(self):
-        self.lbl.load(r'C:\Users\IAGO\Desktop\gif\finalizado.jpeg')
+        self.lbl.load(r'C:\Users\CODE\Desktop\iago\gif\finalizado.jpeg')
         os.remove(f'{self.__path__}end.txt')
         self.mensagem['text'] = 'atualização finalizada com êxito!\nAbra o programa novamente para prosseguir...'
 
@@ -109,3 +109,5 @@ class GIF:
             self.final()
 
         self.root.after(1000, self.destroy)
+
+# GIF().loop()
